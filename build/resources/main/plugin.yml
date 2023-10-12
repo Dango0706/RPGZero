@@ -1,0 +1,4 @@
+name: RPGZero
+version: '1.0.0'
+main: me.tuanzi.rpgzero.RPGZero
+api-version: 1.20

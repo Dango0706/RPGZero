@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="zero">
+    <output-path>$PROJECT_DIR$/../../game/MinecraftServer/Servers/PluginTestServer/plugins</output-path>
+    <root id="archive" name="zero.jar">
+      <element id="module-output" name="RPGZero.main" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>
