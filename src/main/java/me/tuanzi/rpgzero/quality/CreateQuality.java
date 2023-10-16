@@ -64,9 +64,10 @@ public class CreateQuality {
     /**
      * 刷新品质.
      *
-     * @param itemStack 需要刷新的物品
+     * @param itemStack1 需要刷新的物品
      */
-    public static void refreshQuality(ItemStack itemStack) {
+    public static ItemStack refreshQuality(ItemStack itemStack1) {
+        ItemStack itemStack = itemStack1.clone();
         ItemMeta itemMeta = itemStack.getItemMeta();
         Quality quality = null;
         ArrayList<String> lore;
@@ -84,11 +85,11 @@ public class CreateQuality {
                 }
             }
         } else {
-            return;
+            return itemStack;
         }
         if (quality == null) {
             itemStack = createQuality(itemStack);
-            return;
+            return itemStack;
         }
         int count;
         String[] strings = quality.getSynopsis().split(" ");
@@ -120,6 +121,7 @@ public class CreateQuality {
         //设置nbt
         nbtSetString(itemMeta, "Quality", quality.name());
         itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 
 

@@ -1,20 +1,17 @@
 package me.tuanzi.rpgzero.events;
 
-import me.tuanzi.rpgzero.draw.ItemType;
-import me.tuanzi.rpgzero.draw.Rarity;
 import me.tuanzi.rpgzero.utils.DamageType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
-import static me.tuanzi.rpgzero.draw.CreateItemStack.createSwordItemStack;
+import static me.tuanzi.rpgzero.draw.DrawItems.drawItem;
 import static me.tuanzi.rpgzero.utils.DamageCalculation.damageCalculation;
 import static me.tuanzi.rpgzero.utils.DamageType.MAGIC;
 import static me.tuanzi.rpgzero.utils.DamageType.PHYSICAL;
@@ -39,11 +36,8 @@ public class DamageEvent implements Listener {
             }
             event.setDamage(EntityDamageEvent.DamageModifier.BASE, damageCalculation(attacker, victim, event.getDamage(), damageType));
             //test
-            attacker.getWorld().dropItem(attacker.getLocation(), createSwordItemStack(Rarity.EXQUISITE, ItemType.GREAT_SWORD, "233", 0, 12.5, 1.2, new ArrayList<>()));
-//            attacker.getWorld().dropItem(attacker.getLocation(), createArmorItemStack(Rarity.SUPREME, "spawnSword", 0, 10, 1.6, ItemType.CHESTPLATE, new ArrayList<>()));
 
-//            refreshQuality(attacker.getEquipment().getItemInMainHand());
-//            updateAttributes(attacker.getEquipment().getItemInMainHand());
+            attacker.getWorld().dropItem(attacker.getLocation(), drawItem((Player) attacker));
 
         }
 

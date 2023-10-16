@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.createItemAttrites;
+import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.createItemAttributes;
 import static me.tuanzi.rpgzero.quality.CreateQuality.createQuality;
+import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtSetBoolean;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtSetString;
 
 /**
@@ -31,13 +32,17 @@ public class CreateItemStack {
      * @param attackSpeed  攻击速度
      * @return 生成的物品
      */
-    public static ItemStack createSwordItemStack(Rarity rarity, ItemType itemType, String name, Integer customModel, double attackDamage, double attackSpeed, ArrayList<String> description) {
+    public static ItemStack createSwordItemStack(Rarity rarity, ItemType itemType, boolean isUP, boolean uping, Integer customModel, double attackDamage, double attackSpeed, String name, List<String> description) {
         ItemStack itemStack = new ItemStack(Material.NETHERITE_SWORD);
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             //设置nbt
             //稀有度
             nbtSetString(itemMeta, "Rarity", rarity.name());
+            //是否是up
+            nbtSetBoolean(itemMeta, "IsUP", isUP);
+            //正在up?
+            nbtSetBoolean(itemMeta, "Uping", uping);
             //设置名字
             itemMeta.setDisplayName(rarity.getColor() + name);
             //修改伤害与攻速
@@ -57,7 +62,7 @@ public class CreateItemStack {
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
             //添加属性(词条)
-            itemStack = createItemAttrites(itemStack);
+            itemStack = createItemAttributes(itemStack,0);
             //添加quality
             itemStack = createQuality(itemStack);
             itemMeta = itemStack.getItemMeta();
@@ -119,7 +124,7 @@ public class CreateItemStack {
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
             //添加属性(词条)
-            itemStack = createItemAttrites(itemStack);
+            itemStack = createItemAttributes(itemStack,0);
             //添加quality
             itemStack = createQuality(itemStack);
             itemMeta = itemStack.getItemMeta();

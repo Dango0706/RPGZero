@@ -102,6 +102,21 @@ public class PersistentDataContainerUtils {
         }
         return a;
     }
+    /**
+     * 同上,类型为boolean
+     *
+     * @param itemMeta the item meta
+     * @param Key      the key
+     * @return the double
+     */
+    public static Boolean nbtGetBoolean(ItemMeta itemMeta, String Key) {
+        Boolean a;
+        a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.BOOLEAN);
+        return a;
+    }
+
+
+
 
 
 }
