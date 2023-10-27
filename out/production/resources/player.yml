@@ -1,0 +1,10 @@
+#玩家个人设置
+#玩家名称小写.
+#示例:
+playername:
+  #是否开启抽卡次数通知
+  isDrawCountToast: false
+  #是否启用新的伤害计算模式
+  isNewDamageCalculate: false
+  #是基岩版玩家吗?
+  isBedrockPlayer: false
