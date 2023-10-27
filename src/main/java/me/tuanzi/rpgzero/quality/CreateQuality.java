@@ -21,7 +21,7 @@ public class CreateQuality {
      */
     public static ItemStack createQuality(ItemStack itemStack) {
         ItemStack result = itemStack.clone();
-        Quality quality = null;
+        Quality quality;
         //判断是盔甲还是工具
         String itemName = itemStack.getType().name();
         //工具
@@ -38,25 +38,21 @@ public class CreateQuality {
             return itemStack;
         }
         //设置quality
-        if (quality != null) {
-            //设置lore
-            ItemMeta itemMeta = result.getItemMeta();
-            List<String> lore = itemMeta.getLore();
-            lore.add(quality.getColor() + "品质:" + quality.getDisplayName());
-            String[] b = quality.getSynopsis().split(" ");
-            ArrayList<String> a = new ArrayList<>(Arrays.asList(b));
-            for (String c : a) {
-                lore.add(quality.getColor() + c);
-            }
-            lore.add("§f==========");
-            itemMeta.setLore(lore);
-            //设置nbt
-            nbtSetString(itemMeta, "Quality", quality.name());
-            result.setItemMeta(itemMeta);
-            //若没有则返回原stack
-        } else {
-            return itemStack;
+        //设置lore
+        ItemMeta itemMeta = result.getItemMeta();
+        List<String> lore = itemMeta.getLore();
+        lore.add(quality.getColor() + "品质:" + quality.getDisplayName());
+        String[] b = quality.getSynopsis().split(" ");
+        ArrayList<String> a = new ArrayList<>(Arrays.asList(b));
+        for (String c : a) {
+            lore.add(quality.getColor() + c);
         }
+        lore.add("§f==========");
+        itemMeta.setLore(lore);
+        //设置nbt
+        nbtSetString(itemMeta, "Quality", quality.name());
+        result.setItemMeta(itemMeta);
+        //若没有则返回原stack
 
         return result;
     }
@@ -103,19 +99,12 @@ public class CreateQuality {
 
         strings = quality.getSynopsis().split(" ");
         stringArrayList = new ArrayList<>(Arrays.asList(strings));
-        //原来的属性描述个数小于新的描述个数
-        if (count < stringArrayList.size()) {
-            lore.set(index + 1, quality.getColor() + stringArrayList.get(0));
-            for (int i = 1; i < stringArrayList.size(); i++) {
-                lore.add(index + 1, quality.getColor() + stringArrayList.get(i));
-            }//否则先删除,后添加
-        } else {
-            for (int i = 0; i < count; i++) {
-                lore.remove(index + 1);
-            }
-            for (String s : stringArrayList) {
-                lore.add(index + 1, quality.getColor() + s);
-            }
+        //删除原本的,添加现有的
+        for (int i = 0; i < count; i++) {
+            lore.remove(index + 1);
+        }
+        for (String s : stringArrayList) {
+            lore.add(index + 1, quality.getColor() + s);
         }
         itemMeta.setLore(lore);
         //设置nbt

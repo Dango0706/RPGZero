@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
-import static me.tuanzi.rpgzero.draw.DrawItems.drawItem;
+import static me.tuanzi.rpgzero.utils.Config.playerConfig;
 import static me.tuanzi.rpgzero.utils.DamageCalculation.damageCalculation;
 import static me.tuanzi.rpgzero.utils.DamageType.MAGIC;
 import static me.tuanzi.rpgzero.utils.DamageType.PHYSICAL;
@@ -19,8 +19,12 @@ import static me.tuanzi.rpgzero.utils.DamageType.PHYSICAL;
 public class DamageEvent implements Listener {
 
     @EventHandler
-    public static void Damage(EntityDamageByEntityEvent event) {
+    public void Damage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof LivingEntity attacker && event.getEntity() instanceof LivingEntity victim) {
+            if(attacker instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase()+".isNewDamageCalculate",true))
+                return;
+            if(victim instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase()+".isNewDamageCalculate",true))
+                return;
             System.out.println("##########");
             System.out.println("原最终伤害:" + event.getFinalDamage());
             //盔甲伤害减免设置为0
@@ -35,10 +39,6 @@ public class DamageEvent implements Listener {
 
             }
             event.setDamage(EntityDamageEvent.DamageModifier.BASE, damageCalculation(attacker, victim, event.getDamage(), damageType));
-            //test
-
-            attacker.getWorld().dropItem(attacker.getLocation(), drawItem((Player) attacker));
-
         }
 
     }

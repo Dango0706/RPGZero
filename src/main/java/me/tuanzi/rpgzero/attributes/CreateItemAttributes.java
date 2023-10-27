@@ -200,6 +200,9 @@ public class CreateItemAttributes {
             itemMeta.getPersistentDataContainer().remove(new NamespacedKey(javaPlugin, itemAttributes.name()));
         }
         for (int i = 0; i < 5; i++) {
+            if(lore.size() < 3){
+                return itemStack;
+            }
             lore.remove(2);
         }
         itemMeta.setLore(lore);

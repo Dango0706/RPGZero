@@ -63,6 +63,9 @@ public class PersistentDataContainerUtils {
      * @return 获取的nbt值, 若无返回"Null"
      */
     public static String nbtGetString(ItemMeta itemMeta, String Key) {
+        if (itemMeta == null) {
+            return "Null";
+        }
         String a;
         a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.STRING);
         if (a == null) {
@@ -79,6 +82,9 @@ public class PersistentDataContainerUtils {
      * @return the integer
      */
     public static Integer nbtGetInteger(ItemMeta itemMeta, String Key) {
+        if (itemMeta == null) {
+            return 0;
+        }
         Integer a;
         a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.INTEGER);
         if (a == null) {
@@ -95,6 +101,9 @@ public class PersistentDataContainerUtils {
      * @return the double
      */
     public static Double nbtGetDouble(ItemMeta itemMeta, String Key) {
+        if (itemMeta == null) {
+            return 0.0;
+        }
         Double a;
         a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.DOUBLE);
         if (a == null) {
@@ -103,15 +112,18 @@ public class PersistentDataContainerUtils {
         return a;
     }
     /**
-     * 同上,类型为boolean
+     * 同上,类型为boolean,null则返回false
      *
      * @param itemMeta the item meta
      * @param Key      the key
      * @return the double
      */
     public static Boolean nbtGetBoolean(ItemMeta itemMeta, String Key) {
+        if (itemMeta == null) {
+            return false;
+        }
         Boolean a;
-        a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.BOOLEAN);
+        a = itemMeta.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, Key), PersistentDataType.BOOLEAN, false);
         return a;
     }
 

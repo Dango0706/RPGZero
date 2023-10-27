@@ -1,7 +1,6 @@
 package me.tuanzi.rpgzero.draw;
 
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,19 +14,17 @@ import java.util.Random;
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.refreshAttributes;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
+import static me.tuanzi.rpgzero.utils.Config.playerConfig;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetBoolean;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetString;
 
 public class DrawItems {
-
-
     public DrawItems() {
 
     }
 
-
-    //抽卡  五星ItemStack组 四星ItemStack组
-    public static ItemStack drawItem(Player player) {
+    //抽卡
+    public static ItemStack drawItem(Player player, Location location) {
         ItemStack result = new ItemStack(Material.AIR);
         //总抽数
         int totalCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 1) + 1;
@@ -87,31 +84,48 @@ public class DrawItems {
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, goldenCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, purpleCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, totalCount);
+        if(playerConfig.getBoolean(player.getDisplayName().toLowerCase()+".isDrawCountToast",true))
+            player.sendMessage("[系统]你总共抽了:" +
+                    totalCount +
+                    "次,你距离下个四星保底约为" +
+                    (10 - purpleCount) +
+                    "次,你距离下个五星保底为:" +
+                    (90 - goldenCount) +
+                    "次,你下次紫色是否是保底:" +
+                    isListPurple +
+                    "你下个五星是否是保底:" +
+                    isListGolden);
+
         //保底计算
         if (goldenCount >= 90) {
+            spawnO(location, 3);
             return getGoldenItemStack(player, isListGolden, allGolden, upGolden, random);
         } else {
             //不是金保底 计算紫保底
             if (purpleCount >= 10) {
+                spawnO(location, 2);
                 return getPurpleItemStack(player, isListPurple, allPurple, upPurple, upGolden, random);
             } else {
                 double goldenRank = 0.6;
                 if (goldenCount >= 60) {
-                    goldenRank += (goldenCount - 60) * 0.2;
+                    goldenRank += (goldenCount - 60) * 0.02;
                     if (goldenCount >= 70) {
-                        goldenRank += (goldenCount - 70) * 0.75;
+                        goldenRank += (goldenCount - 70) * 0.075;
                     }
                 }
                 //不是金也不是紫保底
                 if (rank <= goldenRank) {
+                    spawnO(location, 3);
                     return getGoldenItemStack(player, isListGolden, allGolden, upGolden, random);
                 } else if (rank <= 10 + goldenRank) {
+                    spawnO(location, 2);
                     return getPurpleItemStack(player, isListPurple, allPurple, upPurple, upGolden, random);
                 } else {
+                    spawnO(location, 1);
                     ItemStack itemStack;
                     itemStack = allBlue.get(random.nextInt(allBlue.size()));
-                  itemStack=  refreshQuality(itemStack);
-                  itemStack=  refreshAttributes(itemStack);
+                    itemStack = refreshQuality(itemStack);
+                    itemStack = refreshAttributes(itemStack);
                     //金紫都没出
                     return itemStack;
                 }
@@ -179,9 +193,42 @@ public class DrawItems {
             }
         }
         itemStack = refreshQuality(itemStack);
-        itemStack =  refreshAttributes(itemStack);
+        itemStack = refreshAttributes(itemStack);
 
         return itemStack;
+    }
+
+
+    static void spawnO(Location location, int result) {
+        final Location location1 = location.add(0.5, -0.25, 0.5);
+        Bukkit.getScheduler().runTaskLater(javaPlugin, () -> {
+            for (double angle = 0; angle < 360; angle += 0.5) {
+                double x = location1.getX() + 2 * Math.cos(angle);
+                double y = location1.getY();
+                double z = location1.getZ() + 2 * Math.sin(angle);
+
+                Location newLocation = new Location(location1.getWorld(), x, y, z);
+                if (result == 1) {
+                    location1.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 1, 0, 0, 0, new Particle.DustOptions(Color.BLUE, 1.0f));
+//                    location1.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, newLocation, 0, 0, 0, 1, 0);
+                } else if (result == 2) {
+                    location1.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 1, 0, 0, 0, new Particle.DustOptions(Color.PURPLE, 1.0f));
+//                    location1.getWorld().spawnParticle(Particle.DRAGON_BREATH, newLocation, 0, 0, 0, 1, 0);
+                } else {
+                    location1.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 1, 0, 0, 0, new Particle.DustOptions(Color.YELLOW, 1.0f));
+//                    location1.getWorld().spawnParticle(Particle.CHERRY_LEAVES, newLocation, 0, 0, 0, 1, 0);
+                }
+            }
+            if (result == 1) {
+                location.getWorld().playSound(location1, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
+            } else if (result == 2) {
+                location.getWorld().playSound(location1, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+            } else {
+                location.getWorld().playSound(location1, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
+            }
+        }, 1L);
+
+
     }
 
 

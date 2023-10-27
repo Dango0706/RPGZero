@@ -2,3 +2,14 @@ name: RPGZero
 version: '${version}'
 main: me.tuanzi.rpgzero.RPGZero
 api-version: 1.20
+commands:
+  rpg: # 命令的基本名，请不要使用奇怪的字符！
+    aliases: # 别名，方便玩家使用
+      - "r"
+    usage: "/rpg help" # 用法
+    description: "RPGzero" # 描述
+    permission: "" # 需要的权限，通常不用
+    permission-message: "Only killer can do that!" # 无权限返回的消息，通常不用
+softdepend:
+  - Geyser-Spigot
+  - Floodgate

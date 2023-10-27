@@ -16,7 +16,7 @@ import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.*;
 
 public class ItemAttributeUpdate implements Listener {
     @EventHandler
-    public static void damage(EntityDamageByEntityEvent event) {
+    public void damage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof LivingEntity attacker && event.getEntity() instanceof LivingEntity victim) {
             //是玩家
             if (attacker instanceof Player player) {
