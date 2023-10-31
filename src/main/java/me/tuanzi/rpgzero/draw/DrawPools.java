@@ -5,8 +5,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static me.tuanzi.rpgzero.draw.CreateItemStack.createMiscItemStack;
-import static me.tuanzi.rpgzero.draw.CreateItemStack.createSwordItemStack;
+import static me.tuanzi.rpgzero.draw.CreateItemStack.*;
+import static me.tuanzi.rpgzero.items.JavaItems.SPECTRAL_FRAGMENT;
 
 /**
  * 抽奖卡池
@@ -27,24 +27,40 @@ public class DrawPools {
     static final ItemStack SEAHEART_BLADE = createSwordItemStack(Rarity.MYTHIC, ItemType.SWORD, true, true, 15211007, 8.5, 1.6, "碧海剑心", List.of("§7蕴含大海力量的剑，能够召唤汹涌的海浪攻击敌人。"));
     static final ItemStack THORNBLADE = createSwordItemStack(Rarity.MYTHIC, ItemType.SWORD, true, true, 15211008, 8.5, 1.6, "荆棘之刃", List.of("§7带有尖锐荆棘的剑，每一次攻击都能够让敌人感受到剧痛。"));
     //其他奖励
-    static final ItemStack SOME_DIAMOND = createMiscItemStack(Material.DIAMOND, Rarity.MYTHIC, 0, 15, null, null);
-    static final ItemStack SOME_EMERALD = createMiscItemStack(Material.EMERALD, Rarity.MYTHIC, 0, 15, null, null);
-    static final ItemStack SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_INGOT, Rarity.MYTHIC, 0, 32, null, null);
-    static final ItemStack SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MYTHIC, 0, 32, null, null);
-    static final ItemStack SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MYTHIC, 0, 8, null, null);
+    static final ItemStack BLUE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND, Rarity.MYTHIC, 0, 15, null, (String) null);
+    static final ItemStack BLUE_SOME_EMERALD = createMiscItemStack(Material.EMERALD, Rarity.MYTHIC, 0, 15, null, (String) null);
+    static final ItemStack BLUE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_INGOT, Rarity.MYTHIC, 0, 32, null, (String) null);
+    static final ItemStack BLUE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MYTHIC, 0, 32, null, (String) null);
+    static final ItemStack BLUE_SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MYTHIC, 0, 8, null, (String) null);
 
     //紫色
     //武器
+    //up
     static final ItemStack ROAR_OF_FROST = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, true, true, 15212000, 9.25, 1.6, "霜之咆哮", List.of("§7寒冬之物，欲毁一切。"));
-    static final ItemStack b = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, true, true, 1000, 10, 1.6, "test2", List.of("寒冬之物，欲毁一切。"));
-    static final ItemStack bb = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 1000, 10, 1.6, "test1", List.of("寒冬之物，欲毁一切。"));
+    static final ItemStack WIND_DANCE_BLADE = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, true, true, 15212004, 8.25, 1.8, "狂风剑舞", List.of("§7轻盈如风的剑，每一次挥舞都能够掀起狂风的破坏力。"));
+    //noup
+    static final ItemStack ETERNAL_BLADE = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212002, 9.25, 1.6, "永恒之刃", List.of("§7由神秘材料打造的剑，拥有永恒不灭的力量。"));
+    static final ItemStack FROST_SHADOW_BLADE = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212003, 9.25, 1.6, "霜寒冥刀", List.of("§7蕴含冰霜与黑暗力量的刀，能够冻结敌人的血液。"));
+    static final ItemStack HOLY_LIGHT_JUDGMENT_SWORD = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212001, 9.25, 1.6, "圣光审判剑", List.of("§7由圣光赋予的神圣剑，能够驱散黑暗与邪恶。"));
+    static final ItemStack ENDLESS_SHADOW_BLADE = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212005, 9.25, 1.6, "无尽黯影", List.of("§7蕴含无尽黑暗力量的剑，能够吞噬一切光明。"));
     //其他奖励
+//    static final ItemStack SOME_SOUL_GEM = setItemStackCount(SOUL_GEM, 2);
+    static final ItemStack SOME_SPECTRAL_FRAGMENT = setItemStackCount(SPECTRAL_FRAGMENT, 5);
+    static final ItemStack PURPLE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND, Rarity.MAJESTIC, 0, 32, null, (String) null);
+    static final ItemStack PURPLE_SOME_EMERALD = createMiscItemStack(Material.EMERALD, Rarity.MAJESTIC, 0, 32, null, (String) null);
+    static final ItemStack PURPLE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_INGOT, Rarity.MAJESTIC, 0, 64, null, (String) null);
+    static final ItemStack PURPLE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MAJESTIC, 0, 64, null, (String) null);
+    static final ItemStack PURPLE_SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MAJESTIC, 0, 16, null, (String) null);
+    static final ItemStack PURPLE_SOME_ENCHANTED_GOLDEN_APPLE = createMiscItemStack(Material.ENCHANTED_GOLDEN_APPLE, Rarity.MAJESTIC, 0, 8, null, (String) null);
 
+    
     //金色
+    //up
     static final ItemStack THUNDER_WRATH = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, true, true, 15213000, 12, 1.6, "雷霆之怒", List.of("§7闪电般的破坏力，摧毁一切敌意。"));
-    static final ItemStack cc = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 1000, 10, 1.6, "test1", List.of("闪电般的破坏力，摧毁一切敌意。"));
-    static final ItemStack cccc = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 1000, 10, 1.6, "test2", List.of("闪电般的破坏力，摧毁一切敌意。"));
-    static final ItemStack cccccc = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 1000, 10, 1.6, "test3", List.of("闪电般的破坏力，摧毁一切敌意。"));
+    //noup
+    static final ItemStack HOLY_DRAGON_SOUL_SWORD = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 15213001, 12, 1.6, "圣龙断魂", List.of("§7由圣龙之魂注入的剑，能够撕裂敌人的灵魂。"));
+    static final ItemStack FLAME_JUDGEMENT = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 15213002, 12, 1.6, "火焰审判", List.of("§7传说中的绝世之剑，只选择命运的守护者为其主人。"));
+    static final ItemStack SHADOW_RECKONER = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 15213003, 12, 1.6, "暗影裁决者","§7在被黑暗笼罩的夜晚，暗影裁决者从深渊中崛起","§7它的剑刃闪耀着无尽的黑暗力量，准确地裁决那些与黑暗同谋的罪人。");
 
 
 }

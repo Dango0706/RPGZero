@@ -8,10 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.createItemAttributes;
 import static me.tuanzi.rpgzero.quality.CreateQuality.createQuality;
@@ -22,6 +19,16 @@ import static me.tuanzi.rpgzero.utils.utils.formatNumber;
  * The type Create item stack.
  */
 public class CreateItemStack {
+
+    public static ItemStack setItemStackCount(ItemStack itemStack, int count) {
+        ItemStack itemStack1 = itemStack.clone();
+        itemStack1.setAmount(count);
+        return itemStack1;
+    }
+
+    public static ItemStack createMiscItemStack(Material material, Rarity rarity, Integer customModel, Integer count, String name, String... description) {
+        return createMiscItemStack(material, rarity, customModel, count, name, Arrays.asList(description));
+    }
 
     public static ItemStack createMiscItemStack(Material material, Rarity rarity, Integer customModel, Integer count, String name, List<String> description) {
         ItemStack itemStack = new ItemStack(material);
@@ -54,6 +61,10 @@ public class CreateItemStack {
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;
+    }
+
+    public static ItemStack createSwordItemStack(Rarity rarity, ItemType itemType, boolean isUP, boolean uping, Integer customModel, double attackDamage, double attackSpeed, String name, String... description) {
+        return createSwordItemStack(rarity, itemType, isUP, uping, customModel, attackDamage, attackSpeed, name, Arrays.asList(description));
     }
 
 
@@ -99,7 +110,7 @@ public class CreateItemStack {
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
             //添加属性(词条)
-            itemStack = createItemAttributes(itemStack, 0);
+            itemStack = createItemAttributes(itemStack, false);
             //添加quality
             itemStack = createQuality(itemStack);
             itemMeta = itemStack.getItemMeta();
@@ -174,7 +185,7 @@ public class CreateItemStack {
         itemMeta.setLore(lore);
         itemStack.setItemMeta(itemMeta);
         //添加属性(词条)
-        itemStack = createItemAttributes(itemStack, 0);
+        itemStack = createItemAttributes(itemStack, false);
         //添加quality
         itemStack = createQuality(itemStack);
         itemMeta = itemStack.getItemMeta();
@@ -188,11 +199,11 @@ public class CreateItemStack {
     }
 
     public static ItemStack refreshOldItem(ItemStack oldItem) {
-        ItemStack itemStack = oldItem;
+        ItemStack itemStack = oldItem.clone();
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
-            if (nbtGetBoolean(itemMeta, "isNew") != null) {
-                return itemStack;
+            if (nbtGetBoolean(itemMeta, "isNew")) {
+                return oldItem;
             } else {
                 //摇一个Rarity
                 Rarity rarity;
@@ -228,18 +239,18 @@ public class CreateItemStack {
                     lore.add("§f装备类型:§b剑");
                 } else {
                     lore.add("§f装备类型:§b其他");
+                    return oldItem;
                 }
                 //将lore还给Item
                 itemMeta.setLore(lore);
                 itemStack.setItemMeta(itemMeta);
                 //添加属性(词条)
-                itemStack = createItemAttributes(itemStack, 0);
+                itemStack = createItemAttributes(itemStack, false);
                 //添加quality
                 itemStack = createQuality(itemStack);
             }
         }
-
-        return itemStack.clone();
+        return itemStack;
     }
 
 

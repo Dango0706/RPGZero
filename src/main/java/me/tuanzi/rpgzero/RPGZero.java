@@ -55,6 +55,7 @@ public final class RPGZero extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerDrawEvent(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerSetDefaultConfigEvent(), this);
         Bukkit.getPluginManager().registerEvents(new dropFragment(), this);
+        Bukkit.getPluginManager().registerEvents(new EntitySpawnEvents(), this);
         //recipe
         new Recipe();
         //command

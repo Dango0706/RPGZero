@@ -13,7 +13,16 @@ import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.*;
 
 public class CreateItemAttributes {
 
-    public static ItemStack createItemAttributes(ItemStack itemStack1, int a) {
+
+    /**
+     * 给物品创建一个Attribute
+     * 附属在物品nbt上.
+     *
+     * @param itemStack1 the item stack 1
+     * @param refresh    the refresh
+     * @return the item stack
+     */
+    public static ItemStack createItemAttributes(ItemStack itemStack1, boolean refresh) {
         ItemStack itemStack = itemStack1.clone();
         //物品稀有度
         int rarity;
@@ -85,13 +94,37 @@ public class CreateItemAttributes {
                     result.add(selectedPrize);
                 }
             }
-            int location = 2;
-            if (a == 0) {
-                lore.add("§f=====Lv:1=====");
-            } else {
-                lore.add(location, "§f=====Lv:1=====");
+            int minLocation = -1;
+            int maxLocation = -1;
+            if (refresh) {
+                //清除所有Attribute
+                for (ItemAttributes itemAttributes1 : ItemAttributes.values()) {
+                    itemMeta.getPersistentDataContainer().remove(new NamespacedKey(javaPlugin, itemAttributes1.name()));
+                }
+                //重置
+                for (int i = 0; i < lore.size(); i++) {
+                    if (lore.get(i).contains("Lv:")) {
+                        minLocation = i;
+                    }
+                    if (lore.get(i).contains("Exp:")) {
+                        maxLocation = i;
+                    }
+                }
+                if (minLocation != -1 && maxLocation != -1) {
+                    for (int i = minLocation; i < maxLocation; i++) {
+                        lore.remove(i);
+                    }
+                } else {
+                    return itemStack1;
+                }
+                lore.add(minLocation, "§f=====Lv:1=====");
             }
 
+
+
+            if (!refresh) {
+                lore.add("§f=====Lv:1=====");
+            }
             //设置lore与nbt
             for (ItemAttributes itemAttribute : result) {
                 nbtSetDouble(itemMeta, itemAttribute.name(), calculationUpdateAttributes(itemAttribute));
@@ -100,36 +133,35 @@ public class CreateItemAttributes {
                 DecimalFormat decimalFormat = new DecimalFormat("#.00");
                 String number = decimalFormat.format(value);
                 if (itemAttribute == ItemAttributes.ATTACK_DAMAGE || itemAttribute == ItemAttributes.DEFENSE) {
-                    if (a == 0) {
+                    if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number);
                     } else {
-                        lore.add(location, "§a" + itemAttribute.getDisplayName() + "+" + number);
+                        lore.add(minLocation, "§a" + itemAttribute.getDisplayName() + "+" + number);
                     }
 
                 } else if (itemAttribute == ItemAttributes.ATTACK_SPEED) {
-                    if (a == 0) {
+                    if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     } else {
-                        lore.add(location, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
+                        lore.add(minLocation, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
 
                     }
                 } else {
                     number = decimalFormat.format(value * 100);
-                    if (a == 0) {
+                    if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     } else {
-                        lore.add(location, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
+                        lore.add(minLocation, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     }
 
                 }
             }
             nbtSetInteger(itemMeta, "AttributeExp", 0);
             nbtSetInteger(itemMeta, "AttributeLevel", 1);
-            if (a == 0) {
+            if (!refresh) {
                 lore.add("§f=====Exp:0=====");
-
             } else {
-                lore.add(location, "§f=====Exp:0=====");
+                lore.add(minLocation, "§f=====Exp:0=====");
             }
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
@@ -193,22 +225,24 @@ public class CreateItemAttributes {
 
     public static ItemStack refreshAttributes(ItemStack itemStack1) {
         ItemStack itemStack = itemStack1.clone();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        List<String> lore = itemMeta.getLore();
-        //清除所有Attribute
-        for (ItemAttributes itemAttributes : ItemAttributes.values()) {
-            itemMeta.getPersistentDataContainer().remove(new NamespacedKey(javaPlugin, itemAttributes.name()));
-        }
-        for (int i = 0; i < 5; i++) {
-            if(lore.size() < 3){
+//        ItemMeta itemMeta = itemStack.getItemMeta();
+//        List<String> lore = itemMeta.getLore();
+
+/*        for (int i = 0; i < 5; i++) {
+            if (lore.size() < 3) {
                 return itemStack;
             }
             lore.remove(2);
-        }
-        itemMeta.setLore(lore);
-        itemStack.setItemMeta(itemMeta);
+        }*/
+
+/*        for (ItemAttributes itemAttribute : ItemAttributes.values()) {
+            nbtSetDouble(itemMeta, itemAttribute.name(), 0);
+        }*/
+
+//        itemMeta.setLore(lore);
+//        itemStack.setItemMeta(itemMeta);
         //添加上
-        itemStack = createItemAttributes(itemStack, 1);
+        itemStack = createItemAttributes(itemStack, true);
         return itemStack;
     }
 

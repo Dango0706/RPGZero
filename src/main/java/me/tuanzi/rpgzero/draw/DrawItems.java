@@ -27,11 +27,11 @@ public class DrawItems {
     public static ItemStack drawItem(Player player, Location location) {
         ItemStack result = new ItemStack(Material.AIR);
         //总抽数
-        int totalCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 1) + 1;
+        int totalCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 0) + 1;
         //紫色抽数
-        int purpleCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 1) + 1;
+        int purpleCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 0) + 1;
         //金色抽数
-        int goldenCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 1) + 1;
+        int goldenCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 0) + 1;
         //是紫保底吗
         boolean isListPurple = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListPurple"), PersistentDataType.BOOLEAN, false);
         //是金保底吗

@@ -15,6 +15,7 @@ public class CreateQuality {
 
     /**
      * 给物品创建一个品质.
+     * 品质的增伤在计算伤害时计算.而不是在物品nbt上.
      *
      * @param itemStack 需要被创建的物品
      * @return 创建好的物品

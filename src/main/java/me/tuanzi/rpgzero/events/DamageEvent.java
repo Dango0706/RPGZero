@@ -13,20 +13,19 @@ import org.bukkit.persistence.PersistentDataType;
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.utils.Config.playerConfig;
 import static me.tuanzi.rpgzero.utils.DamageCalculation.damageCalculation;
-import static me.tuanzi.rpgzero.utils.DamageType.MAGIC;
-import static me.tuanzi.rpgzero.utils.DamageType.PHYSICAL;
+import static me.tuanzi.rpgzero.utils.DamageType.*;
 
 public class DamageEvent implements Listener {
 
     @EventHandler
     public void Damage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof LivingEntity attacker && event.getEntity() instanceof LivingEntity victim) {
-            if(attacker instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase()+".isNewDamageCalculate",true))
+            if (attacker instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase() + ".isNewDamageCalculate", true))
                 return;
-            if(victim instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase()+".isNewDamageCalculate",true))
+            if (victim instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase() + ".isNewDamageCalculate", true))
                 return;
-            System.out.println("##########");
-            System.out.println("原最终伤害:" + event.getFinalDamage());
+            javaPlugin.getLogger().info("##########");
+            javaPlugin.getLogger().info("原最终伤害:" + event.getFinalDamage());
             //盔甲伤害减免设置为0
             event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
             //默认为物理伤害
@@ -35,9 +34,33 @@ public class DamageEvent implements Listener {
                 if (attacker.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "MAGIC"), PersistentDataType.BOOLEAN, false))
                     damageType = MAGIC;
                 if (attacker.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PENETRATION"), PersistentDataType.BOOLEAN, false))
-                    damageType = DamageType.PENETRATION;
-
+                    damageType = PENETRATION;
             }
+            //魔法伤害
+            if (event.getCause() == EntityDamageEvent.DamageCause.MAGIC
+                    || event.getCause() == EntityDamageEvent.DamageCause.DRAGON_BREATH
+                    || event.getCause() == EntityDamageEvent.DamageCause.POISON
+                    || event.getCause() == EntityDamageEvent.DamageCause.LIGHTNING
+                    || event.getCause() == EntityDamageEvent.DamageCause.WITHER
+                    || event.getCause() == EntityDamageEvent.DamageCause.THORNS
+                    || event.getCause() == EntityDamageEvent.DamageCause.SONIC_BOOM
+            ) {
+                damageType = MAGIC;
+            }
+            //真实伤害
+            if (event.getCause() == EntityDamageEvent.DamageCause.DROWNING
+                    || event.getCause() == EntityDamageEvent.DamageCause.KILL
+                    || event.getCause() == EntityDamageEvent.DamageCause.WORLD_BORDER
+                    || event.getCause() == EntityDamageEvent.DamageCause.SUFFOCATION
+                    || event.getCause() == EntityDamageEvent.DamageCause.FALL
+                    || event.getCause() == EntityDamageEvent.DamageCause.VOID
+                    || event.getCause() == EntityDamageEvent.DamageCause.SUICIDE
+                    || event.getCause() == EntityDamageEvent.DamageCause.STARVATION
+                    || event.getCause() == EntityDamageEvent.DamageCause.FREEZE
+            ) {
+                damageType = PENETRATION;
+            }
+
             event.setDamage(EntityDamageEvent.DamageModifier.BASE, damageCalculation(attacker, victim, event.getDamage(), damageType));
         }
 

@@ -82,9 +82,13 @@ public class ItemAttributeUpdate implements Listener {
                     //设置回去
                     itemMeta.setLore(lore);
                     itemStack.setItemMeta(itemMeta);
+                    //发送一个actionBar
+                    if (attacker instanceof Player player) {
+                        player.sendTitle("你的" + player.getEquipment().getItemInMainHand().getItemMeta().getDisplayName() + "升级了!", "", 0, 30, 0);
+                    }
                     //如果等级能除开5,则升级属性
                     if (level % 5 == 0) {
-                        updateAttributes(itemStack);
+                        attacker.getEquipment().setItemInMainHand(updateAttributes(itemStack));
                     }
                 }
 

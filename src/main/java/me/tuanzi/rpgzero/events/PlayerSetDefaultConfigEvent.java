@@ -23,11 +23,18 @@ public class PlayerSetDefaultConfigEvent implements Listener {
         if (hasGeyser) {
             if (geyserApi.isBedrockPlayer(player.getUniqueId()))
                 setPlayerConfig(name, "isBedrockPlayer", true);
-            else
+            else {
                 setPlayerConfig(name, "isBedrockPlayer", false);
+                //todo:设置资源包
+//                player.setResourcePack("https://www.mediafire.com/file/6p01j5au1d9gmbh/SakuraServer.zip");
+
+            }
         }
         savePlayerConfig();
 
         System.out.println("是否是基岩版玩家:" + GeyserApi.api().isBedrockPlayer(player.getUniqueId()));
     }
+
+
+
 }

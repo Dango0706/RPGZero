@@ -6,7 +6,6 @@
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/player.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/config.yml" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/extension.yml" />
     </root>
   </artifact>
 </component>
