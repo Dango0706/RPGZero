@@ -1,6 +1,9 @@
 package me.tuanzi.rpgzero.events;
 
 import me.tuanzi.rpgzero.draw.Rarity;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +12,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.awt.*;
 import java.util.List;
 
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.updateAttributes;
@@ -84,11 +88,22 @@ public class ItemAttributeUpdate implements Listener {
                     itemStack.setItemMeta(itemMeta);
                     //发送一个actionBar
                     if (attacker instanceof Player player) {
-                        player.sendTitle("你的" + player.getEquipment().getItemInMainHand().getItemMeta().getDisplayName() + "升级了!", "", 0, 30, 0);
+                        String name = player.getEquipment().getItemInMainHand().getItemMeta().getDisplayName();
+                        if (name.equals("")) {
+                            name = player.getEquipment().getItemInMainHand().getItemMeta().getLocalizedName();
+                        }
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.of(new Color(0x70CFEA)) + "你的" + name + ChatColor.of(new Color(0x70CFEA)) + "升级了!"));
                     }
                     //如果等级能除开5,则升级属性
                     if (level % 5 == 0) {
                         attacker.getEquipment().setItemInMainHand(updateAttributes(itemStack));
+                        if (attacker instanceof Player player) {
+                            String name = player.getEquipment().getItemInMainHand().getItemMeta().getDisplayName();
+                            if (name.equals("")) {
+                                name = player.getEquipment().getItemInMainHand().getItemMeta().getLocalizedName();
+                            }
+                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.of(new Color(0x70CFEA)) + "你的" + name + ChatColor.of(new Color(0x70CFEA)) + "升级了,并获得了一个属性强化!"));
+                        }
                     }
                 }
 

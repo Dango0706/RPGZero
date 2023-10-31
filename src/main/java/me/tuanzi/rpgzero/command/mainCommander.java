@@ -78,7 +78,7 @@ public class mainCommander implements TabExecutor {
                 , "/rpg server <设置项目> <设置值> 服务器设置"
                 , "/rpg draw 抽卡查询"
                 , "/rpg gui 打开GUI界面"
-                , "/rpg refresh 给背包里旧的装备一个Quality与Attribute."
+                , "/rpg refresh 给背包里所有旧的装备一个Quality与Attribute."
         );
     }
 
@@ -272,6 +272,9 @@ public class mainCommander implements TabExecutor {
                 return true;
             }
 
+        } else if (args[0].equals("help")) {
+            sendHelp(sender);
+            return true;
         }
 
         return true;

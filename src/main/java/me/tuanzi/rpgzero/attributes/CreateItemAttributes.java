@@ -15,12 +15,11 @@ public class CreateItemAttributes {
 
 
     /**
-     * 给物品创建一个Attribute
-     * 附属在物品nbt上.
+     * 给ItemStack创建一个Attribute
      *
-     * @param itemStack1 the item stack 1
-     * @param refresh    the refresh
-     * @return the item stack
+     * @param itemStack1 需要创建的ItemStack
+     * @param refresh    是否为刷新的
+     * @return 创建好的
      */
     public static ItemStack createItemAttributes(ItemStack itemStack1, boolean refresh) {
         ItemStack itemStack = itemStack1.clone();
@@ -111,18 +110,14 @@ public class CreateItemAttributes {
                     }
                 }
                 if (minLocation != -1 && maxLocation != -1) {
-                    for (int i = minLocation; i < maxLocation; i++) {
-                        lore.remove(i);
+                    for (int i = 0; i < maxLocation - minLocation + 1; i++) {
+                        lore.remove(minLocation);
                     }
                 } else {
                     return itemStack1;
                 }
                 lore.add(minLocation, "§f=====Lv:1=====");
-            }
-
-
-
-            if (!refresh) {
+            } else {
                 lore.add("§f=====Lv:1=====");
             }
             //设置lore与nbt
@@ -136,14 +131,14 @@ public class CreateItemAttributes {
                     if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number);
                     } else {
-                        lore.add(minLocation, "§a" + itemAttribute.getDisplayName() + "+" + number);
+                        lore.add(minLocation + 1, "§a" + itemAttribute.getDisplayName() + "+" + number);
                     }
 
                 } else if (itemAttribute == ItemAttributes.ATTACK_SPEED) {
                     if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     } else {
-                        lore.add(minLocation, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
+                        lore.add(minLocation + 1, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
 
                     }
                 } else {
@@ -151,7 +146,7 @@ public class CreateItemAttributes {
                     if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     } else {
-                        lore.add(minLocation, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
+                        lore.add(minLocation + 1, "§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     }
 
                 }
@@ -161,7 +156,7 @@ public class CreateItemAttributes {
             if (!refresh) {
                 lore.add("§f=====Exp:0=====");
             } else {
-                lore.add(minLocation, "§f=====Exp:0=====");
+                lore.add(maxLocation, "§f=====Exp:0=====");
             }
             itemMeta.setLore(lore);
             itemStack.setItemMeta(itemMeta);
@@ -169,6 +164,7 @@ public class CreateItemAttributes {
         return itemStack;
     }
 
+    //随机强化子项
     public static ItemStack updateAttributes(ItemStack itemStack1) {
         ItemStack itemStack = itemStack1.clone();
         if (itemStack.getItemMeta() == null) {
@@ -178,27 +174,41 @@ public class CreateItemAttributes {
         List<String> lore = itemMeta.getLore();
         int rank = new Random().nextInt(3);
         //3,4,5
+        //2 3 4 5 6
         for (ItemAttributes i : ItemAttributes.values()) {
-            //相等即为升级
-            //todo:根据权重升级
-            if (lore.get(3 + rank).contains(i.getDisplayName())) {
-                //升级多少计算
-                double up = calculationUpdateAttributes(i);
-                //设置nbt
-                nbtSetDouble(itemMeta, i.name(), nbtGetDouble(itemMeta, i.name()) + up);
-                //取2位小数,设置lore
-                double value = nbtGetDouble(itemMeta, i.name());
-                DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                String number = decimalFormat.format(value);
-                if (i == ItemAttributes.ATTACK_DAMAGE || i == ItemAttributes.DEFENSE) {
-                    lore.set((3 + rank), "§a" + i.getDisplayName() + "+" + number);
-                } else if (i == ItemAttributes.ATTACK_SPEED) {
-                    lore.set((3 + rank), "§a" + i.getDisplayName() + "+" + number + "%");
-                } else {
-                    number = decimalFormat.format(value * 100);
-                    lore.set((3 + rank), "§a" + i.getDisplayName() + "+" + number + "%");
+            int minLocation = -1;
+            int maxLocation = -1;
+            for (int j = 0; j < lore.size(); j++) {
+                if (lore.get(j).contains("Lv:")) {
+                    minLocation = j;
+                }
+                if (lore.get(j).contains("Exp:")) {
+                    maxLocation = j;
                 }
             }
+            if (minLocation != -1 && maxLocation != -1) {
+                //相等即为升级
+                //todo:根据权重升级
+                if (lore.get(minLocation + 1 + rank).contains(i.getDisplayName())) {
+                    //升级多少计算
+                    double up = calculationUpdateAttributes(i);
+                    //设置nbt
+                    nbtSetDouble(itemMeta, i.name(), nbtGetDouble(itemMeta, i.name()) + up);
+                    //取2位小数,设置lore
+                    double value = nbtGetDouble(itemMeta, i.name());
+                    DecimalFormat decimalFormat = new DecimalFormat("#.00");
+                    String number = decimalFormat.format(value);
+                    if (i == ItemAttributes.ATTACK_DAMAGE || i == ItemAttributes.DEFENSE) {
+                        lore.set((minLocation + 1 + rank), "§a" + i.getDisplayName() + "+" + number);
+                    } else if (i == ItemAttributes.ATTACK_SPEED) {
+                        lore.set((minLocation + 1 + rank), "§a" + i.getDisplayName() + "+" + number + "%");
+                    } else {
+                        number = decimalFormat.format(value * 100);
+                        lore.set((minLocation + 1 + rank), "§a" + i.getDisplayName() + "+" + number + "%");
+                    }
+                }
+            }
+
         }
         //设置回去
         itemMeta.setLore(lore);
@@ -206,12 +216,13 @@ public class CreateItemAttributes {
         return itemStack;
     }
 
+    //计算子项强化数字
     static Double calculationUpdateAttributes(ItemAttributes attributes) {
         double a = attributes.getMin();
         Random random = new Random();
         int count = 1;
         double cha = (attributes.getMax() - a) / 4;
-        while (a < attributes.getMax()) {
+        while (a <= attributes.getMax()) {
             if (random.nextDouble() < (1 - count * 0.25)) {
                 count += 1;
                 a += cha;
@@ -222,7 +233,7 @@ public class CreateItemAttributes {
         return a;
     }
 
-
+    //刷新子项,且重置等级为0
     public static ItemStack refreshAttributes(ItemStack itemStack1) {
         ItemStack itemStack = itemStack1.clone();
 //        ItemMeta itemMeta = itemStack.getItemMeta();
