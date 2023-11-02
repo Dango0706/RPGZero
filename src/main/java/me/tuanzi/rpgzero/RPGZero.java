@@ -2,6 +2,7 @@ package me.tuanzi.rpgzero;
 
 import me.tuanzi.rpgzero.command.mainCommander;
 import me.tuanzi.rpgzero.events.*;
+import me.tuanzi.rpgzero.gui.ChestGUI;
 import me.tuanzi.rpgzero.utils.Recipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -56,6 +57,7 @@ public final class RPGZero extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerSetDefaultConfigEvent(), this);
         Bukkit.getPluginManager().registerEvents(new dropFragment(), this);
         Bukkit.getPluginManager().registerEvents(new EntitySpawnEvents(), this);
+        Bukkit.getPluginManager().registerEvents(new ChestGUI(), this);
         //recipe
         new Recipe();
         //command

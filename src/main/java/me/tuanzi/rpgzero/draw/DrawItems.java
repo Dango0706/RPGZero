@@ -84,7 +84,7 @@ public class DrawItems {
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, goldenCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, purpleCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, totalCount);
-        if(playerConfig.getBoolean(player.getDisplayName().toLowerCase()+".isDrawCountToast",true))
+        if(playerConfig.getBoolean(player.getName().toLowerCase()+".isDrawCountToast",true))
             player.sendMessage("[系统]你总共抽了:" +
                     totalCount +
                     "次,你距离下个四星保底约为" +

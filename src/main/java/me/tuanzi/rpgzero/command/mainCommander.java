@@ -22,6 +22,7 @@ import java.util.List;
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.refreshAttributes;
 import static me.tuanzi.rpgzero.draw.CreateItemStack.refreshOldItem;
+import static me.tuanzi.rpgzero.gui.ChestGUI.getMainGui;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
 import static me.tuanzi.rpgzero.utils.Config.getPlayerConfig;
 import static me.tuanzi.rpgzero.utils.Config.setPlayerConfig;
@@ -145,9 +146,11 @@ public class mainCommander implements TabExecutor {
                 if (isBedrockPlayer(player)) {
                     //是基岩版的玩家
 
+                    return true;
                 } else {
                     //是Java版的玩家
-
+                    player.openInventory(getMainGui(player));
+                    return true;
                 }
             } else {
                 sender.sendMessage("这条指令只有玩家才能使用哦!");

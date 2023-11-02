@@ -14,7 +14,7 @@ public class PlayerSetDefaultConfigEvent implements Listener {
     @EventHandler
     public void aVoid(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String name = player.getDisplayName().toLowerCase();
+        String name = player.getName().toLowerCase();
         if (playerConfig.get(name) == null) {
             setPlayerConfig(name, "isNewDamageCalculate", true);
             setPlayerConfig(name, "isDrawCountToast", true);

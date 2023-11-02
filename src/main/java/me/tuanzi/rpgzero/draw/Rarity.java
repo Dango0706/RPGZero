@@ -2,8 +2,8 @@ package me.tuanzi.rpgzero.draw;
 
 public enum Rarity {
 
-    SINGULAR("§w", "独特"),
-    EXQUISITE("§7", "精致"),
+    SINGULAR("§7", "独特"),
+    EXQUISITE("§a", "精致"),
     MYTHIC("§b", "神秘"),
     MAJESTIC("§d", "威严"),
     SUPREME("§6", "至高");

@@ -25,6 +25,50 @@ public class CreateItemStack {
         itemStack1.setAmount(count);
         return itemStack1;
     }
+    public static void removeItemStackLore(ItemStack itemStack){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setLore(null);
+        itemStack.setItemMeta(itemMeta);
+    }
+    public static void setItemStackDisplayName(ItemStack itemStack, String displayName){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(displayName);
+        itemStack.setItemMeta(itemMeta);
+    }
+    public static void addItemStackLore(ItemStack itemStack, String... lore){
+        addItemStackLore(itemStack,Arrays.asList(lore));
+    }
+    public static void addItemStackLore(ItemStack itemStack, List<String> lore){
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        List<String> list;
+        if(itemMeta.getLore()!=null)
+            list = itemMeta.getLore();
+        else
+            list = new ArrayList<>();
+        list.addAll(lore);
+        itemMeta.setLore(list);
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    public static ItemStack createDisplayItemStack(Material material, Integer customModel, String name, String... description) {
+        return createDisplayItemStack(material, customModel, name, Arrays.asList(description));
+    }
+
+    public static ItemStack createDisplayItemStack(Material material, Integer customModel, String name, List<String> description) {
+        ItemStack itemStack = new ItemStack(material);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            if (name != null)
+                itemMeta.setDisplayName(name);
+            if (customModel != 0)
+                itemMeta.setCustomModelData(customModel);
+            //将lore还给Item
+            if (description != null)
+                itemMeta.setLore(description);
+            itemStack.setItemMeta(itemMeta);
+        }
+        return itemStack;
+    }
 
     public static ItemStack createMiscItemStack(Material material, Rarity rarity, Integer customModel, Integer count, String name, String... description) {
         return createMiscItemStack(material, rarity, customModel, count, name, Arrays.asList(description));

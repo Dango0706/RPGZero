@@ -27,11 +27,11 @@ public class Config {
     }
 
     public static Object getPlayerConfig(Player player, String namespace) {
-        return playerConfig.get(player.getDisplayName().toLowerCase() + "." + namespace);
+        return playerConfig.get(player.getName().toLowerCase() + "." + namespace);
     }
 
     public static void setPlayerConfig(Player player, String namespace, Object value) {
-        playerConfig.set(player.getDisplayName().toLowerCase() + "." + namespace, value);
+        playerConfig.set(player.getName().toLowerCase() + "." + namespace, value);
         savePlayerConfig();
     }
     public static void setPlayerConfig(String  playerName, String namespace, Object value) {
