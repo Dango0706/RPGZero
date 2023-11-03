@@ -6,13 +6,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.geysermc.cumulus.form.ModalForm;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.draw.DrawItems.drawItem;
+import static me.tuanzi.rpgzero.gui.ChestGUI.getMainGui;
 import static me.tuanzi.rpgzero.utils.GeyserUtils.isBedrockPlayer;
-import static me.tuanzi.rpgzero.utils.GeyserUtils.sendForm;
+import static me.tuanzi.rpgzero.utils.ItemStackUtils.isStringInTheLore;
 
 public class PlayerDrawEvent implements Listener {
     static Material getBlockType(World world, int x, int y, int z) {
@@ -23,16 +24,7 @@ public class PlayerDrawEvent implements Listener {
 
     @EventHandler
     public void draw(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (isBedrockPlayer(event.getPlayer()) && event.getPlayer().getEquipment().getItemInMainHand().getType() == Material.CLOCK) {
-                ModalForm form = ModalForm.builder()
-                        .title("标题")
-                        .content("哈哈!")
-                        .button1("按钮")
-                        .button2("按钮").build();
-                sendForm(event.getPlayer(), form);
-            }
-        }
+
 
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Player player = event.getPlayer();
@@ -97,8 +89,35 @@ public class PlayerDrawEvent implements Listener {
                     player.sendMessage("古老的信标并没有回应你...");
                 }
             }
-        } else {
-            return;
+        }
+    }
+
+    @EventHandler
+    public void useMenu(PlayerInteractEvent event){
+        /*if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (isBedrockPlayer(event.getPlayer()) && event.getPlayer().getEquipment().getItemInMainHand().getType() == Material.CLOCK) {
+                ModalForm form = ModalForm.builder()
+                        .title("标题")
+                        .content("哈哈!")
+                        .button1("按钮")
+                        .button2("按钮").build();
+                sendForm(event.getPlayer(), form);
+            }
+        }*/
+
+
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
+            Player player = event.getPlayer();
+            ItemStack itemStack = player.getEquipment().getItemInMainHand();
+            if(isStringInTheLore(itemStack,"§b按右键打开菜单")){
+                if (isBedrockPlayer(player)) {
+                    //是基岩版的玩家
+                    javaPlugin.getLogger().info("手机版打开");
+                } else {
+                    //是Java版的玩家
+                    player.openInventory(getMainGui(player));
+                }
+            }
         }
     }
 }

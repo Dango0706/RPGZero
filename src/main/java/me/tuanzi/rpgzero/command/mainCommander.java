@@ -1,5 +1,6 @@
 package me.tuanzi.rpgzero.command;
 
+import me.tuanzi.rpgzero.draw.DrawPools;
 import me.tuanzi.rpgzero.items.JavaItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -39,6 +40,12 @@ public class mainCommander implements TabExecutor {
                 allItemsNames.add(field.getName());
             }
         }
+        fields = DrawPools.class.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType() == ItemStack.class) {
+                allItemsNames.add(field.getName());
+            }
+        }
     }
 
     //判断是否是数字
@@ -62,12 +69,20 @@ public class mainCommander implements TabExecutor {
             JavaItems javaItems = new JavaItems();
             // 获取类的字段
             Field field = javaItems.getClass().getDeclaredField(name);
-
-            // 获取字段的值
-
             return (ItemStack) field.get(javaItems);
         } catch (NoSuchFieldException | IllegalAccessException ignored) {
-            return new ItemStack(Material.AIR);
+            try {
+                DrawPools drawPools = new DrawPools();
+                Field field1 = drawPools.getClass().getDeclaredField(name);
+                field1.setAccessible(true);
+                ItemStack itemStack = (ItemStack) field1.get(drawPools);
+                itemStack = refreshQuality(itemStack);
+                itemStack = refreshAttributes(itemStack);
+                return itemStack;
+            } catch (NoSuchFieldException | IllegalAccessException exception) {
+                return new ItemStack(Material.AIR);
+            }
+
         }
     }
 

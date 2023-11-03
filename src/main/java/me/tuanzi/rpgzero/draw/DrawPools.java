@@ -7,6 +7,7 @@ import java.util.List;
 
 import static me.tuanzi.rpgzero.draw.CreateItemStack.*;
 import static me.tuanzi.rpgzero.items.JavaItems.SPECTRAL_FRAGMENT;
+import static me.tuanzi.rpgzero.utils.ItemStackUtils.setItemStackCount;
 
 /**
  * 抽奖卡池

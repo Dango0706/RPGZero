@@ -15,13 +15,12 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import static me.tuanzi.rpgzero.draw.CreateItemStack.*;
 import static me.tuanzi.rpgzero.items.JavaItems.*;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
 import static me.tuanzi.rpgzero.utils.Config.getPlayerConfig;
 import static me.tuanzi.rpgzero.utils.Config.setPlayerConfig;
-import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetBoolean;
-import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetString;
+import static me.tuanzi.rpgzero.utils.ItemStackUtils.*;
+import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.*;
 
 public class ChestGUI implements Listener {
 
@@ -76,14 +75,14 @@ public class ChestGUI implements Listener {
         return mainGui;
     }
 
-    public static Inventory getDisintegrationGui (Player player){
-        disintegrationGui = createEasyInventory(new GUIHolder(player),6,"§c分解台",MAIN_GUI_DISPLAY);
+    public static Inventory getDisintegrationGui (Player player) {
+        disintegrationGui = createEasyInventory(new GUIHolder(player), 6, "§c分解台", MAIN_GUI_DISPLAY);
         ItemStack itemStack;
         itemStack = DISPLAY_ENABLE.clone();
-        setItemStackDisplayName(itemStack,"§c分解以上物品");
+        setItemStackDisplayName(itemStack, "§c分解以上物品");
         removeItemStackLore(itemStack);
-        addItemStackLore(itemStack,"§c注意,此操作无法逆转!!!!!","§4请再三确认没有贵重物品!!");
-        disintegrationGui.setItem(53,itemStack);
+        addItemStackLore(itemStack, "§c注意,此操作无法逆转!!!!!", "§4请再三确认没有贵重物品!!", "§b无效物品会自动返还");
+        disintegrationGui.setItem(53, itemStack);
         disintegrationGui.setItem(8, DISPLAY_HOME);
         disintegrationGui.setItem(45, DISPLAY_BACK);
         return disintegrationGui;
@@ -159,6 +158,27 @@ public class ChestGUI implements Listener {
             }
             inventory.setItem(15, null);
         }
+        if (inventoryView.getTitle().equals("§c分解台")) {
+            ItemStack itemStack;
+            itemStack = DISPLAY_ENABLE.clone();
+            setItemStackDisplayName(itemStack, "§c分解以上物品");
+            removeItemStackLore(itemStack);
+            addItemStackLore(itemStack, "§c注意,此操作无法逆转!!!!!", "§4请再三确认没有贵重物品!!", "§b无效物品会自动返还");
+            e.getInventory().setItem(53, itemStack);
+            //返还物品
+            for (int i = 1; i < 5; i++) {
+                int a = 9 * i + 1;
+                for (int j = 0; j < 7; j++) {
+                    ItemStack itemStack1 = inventory.getItem(a + j);
+                    if (itemStack1 != null) {
+                        player.getInventory().addItem(itemStack1);
+                        inventory.setItem(a + j, null);
+                    }
+                }
+            }
+
+
+        }
     }
 
 
@@ -231,13 +251,123 @@ public class ChestGUI implements Listener {
                     }
                     e.setCancelled(true);
                 }
-                if(inventoryView.getTitle().equals("§c分解台")){
+                if (inventoryView.getTitle().equals("§c分解台")) {
+                    //取消与否
+                    for (int i = 1; i < 7; i++) {
+                        if (e.getRawSlot() == i * 9 || e.getRawSlot() == i * 9 - 1)
+                            e.setCancelled(true);
+                    }
+                    for (int i = 0; i < 9; i++) {
+                        if (e.getRawSlot() == i || e.getRawSlot() == 45 + i)
+                            e.setCancelled(true);
+                    }
+                    if (e.getRawSlot() > 53) {
+                        e.setCancelled(false);
+                    }
+                    //返回
                     if (e.getRawSlot() == 45 || e.getRawSlot() == 8) {
                         player.openInventory(getMainGui(player));
                     }
+                    //点击确认
+                    if (e.getRawSlot() == 53) {
+                        ItemStack itemStack;
+                        itemStack = e.getInventory().getItem(53);
+                        //二次确认
+                        if (itemStack.getItemMeta().getDisplayName().equals("§c分解以上物品")) {
+                            itemStack = DISPLAY_ENABLE.clone();
+                            setItemStackDisplayName(itemStack, "§c确认分解以上物品");
+                            removeItemStackLore(itemStack);
+                            addItemStackLore(itemStack, "§c注意,此操作无法逆转!!!!!", "§4请再三确认没有贵重物品!!", "§b无效物品会自动返还");
+                            e.getInventory().setItem(53, itemStack);
+                            e.setCancelled(true);
+                            return;
+                        }
+                        //确认
+                        if (itemStack.getItemMeta().getDisplayName().equals("§c确认分解以上物品")) {
+                            itemStack = DISPLAY_ENABLE.clone();
+                            setItemStackDisplayName(itemStack, "§c分解以上物品");
+                            removeItemStackLore(itemStack);
+                            addItemStackLore(itemStack, "§c注意,此操作无法逆转!!!!!", "§4请再三确认没有贵重物品!!", "§b无效物品会自动返还");
+                            e.getInventory().setItem(53, itemStack);
+                            //分解
+                            int mythicCount = 0;
+                            int supremeCount = 0;
+                            for (int i = 1; i < 5; i++) {
+                                int a = 9 * i + 1;
+                                for (int j = 0; j < 7; j++) {
+                                    ItemStack itemStack1 = inventory.getItem(a + j);
+                                    if (itemStack1 != null) {
+                                        if (itemStack1.hasItemMeta() && itemStack1.getItemMeta().hasCustomModelData()) {
+                                            if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.MYTHIC.name())) {
+                                                //等级 * 2
+                                                int level = nbtGetInteger(itemStack1.getItemMeta(), "AttributeLevel");
+                                                if (level > 0) {
+                                                    mythicCount += level * 2;
+                                                } else {
+                                                    player.getInventory().addItem(itemStack1);
+                                                    inventory.setItem(a + j, null);
+                                                    continue;
+                                                }
+                                                inventory.setItem(a + j, null);
+                                            } else if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.MAJESTIC.name())) {
+                                                //基础4 每多一级+2
+                                                int level = nbtGetInteger(itemStack1.getItemMeta(), "AttributeLevel");
+                                                if (level > 0) {
+                                                    mythicCount += (level - 1) * 2 + 4;
+                                                } else {
+                                                    player.getInventory().addItem(itemStack1);
+                                                    inventory.setItem(a + j, null);
+                                                    continue;
+                                                }
+                                                //up额外+4
+                                                if (nbtGetBoolean(itemStack1.getItemMeta(), "IsUP")) {
+                                                    mythicCount += 4;
+                                                }
+                                                inventory.setItem(a + j, null);
+                                            } else if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.SUPREME.name())) {
+                                                //基础6 每多一级+2
+                                                int level = nbtGetInteger(itemStack1.getItemMeta(), "AttributeLevel");
+                                                if (level > 0) {
+                                                    mythicCount += (level - 1) * 2 + 6;
+                                                } else {
+                                                    player.getInventory().addItem(itemStack1);
+                                                    inventory.setItem(a + j, null);
+                                                    continue;
+                                                }
+                                                //up额外+6
+                                                if (nbtGetBoolean(itemStack1.getItemMeta(), "IsUP")) {
+                                                    mythicCount += 6;
+                                                }
+                                                supremeCount += 2;
+                                                inventory.setItem(a + j, null);
+                                            } else {
+                                                player.getInventory().addItem(itemStack1);
+                                                inventory.setItem(a + j, null);
+                                            }
+                                        } else {
+                                            player.getInventory().addItem(itemStack1);
+                                            inventory.setItem(a + j, null);
+                                        }
+                                    }
+
+                                }
+                            }
+                            //返回物品
+                            if (supremeCount > 0 || mythicCount > 0) {
+                                ItemStack itemStack1 = SOUL_OF_SMELTING.clone();
+                                itemStack1.setAmount(mythicCount);
+                                player.getInventory().addItem(itemStack1);
+                                itemStack1 = ESSENCE_OF_RESTORATION.clone();
+                                itemStack1.setAmount(supremeCount);
+                                player.getInventory().addItem(itemStack1);
+                                player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+                            }
+                        }
+
+                    }
+
 
                 }
-
                 if (inventoryView.getTitle().equals("§d锻造")) {
                     //禁止触摸的地方
                     for (int i = 0; i < 9; i++) {

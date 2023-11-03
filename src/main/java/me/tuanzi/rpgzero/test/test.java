@@ -1,4 +1,4 @@
-package me.tuanzi.rpgzero;
+package me.tuanzi.rpgzero.test;
 
 public class test {
 

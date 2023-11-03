@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.items.JavaItems.*;
@@ -33,8 +34,31 @@ public class Recipe {
                 .setIngredient('h',Material.PUFFERFISH)
                 .setIngredient('i',Material.PHANTOM_MEMBRANE);
         Bukkit.addRecipe(shapedRecipe);
-
-
+        //永恒之眼
+        shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "ETERNIAS_GAZE"), ETERNIAS_GAZE);
+        shapedRecipe = shapedRecipe.shape("aaa","bcb","ddd");
+        shapedRecipe = shapedRecipe.setIngredient('a',Material.DIAMOND)
+                .setIngredient('b',Material.GOLD_INGOT)
+                .setIngredient('c',new RecipeChoice.ExactChoice(SOUL_OF_SMELTING))
+                .setIngredient('d',Material.IRON_INGOT);
+        Bukkit.addRecipe(shapedRecipe);
+        //焕耀之光
+        shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "REFRESHING_GLORY"), REFRESHING_GLORY);
+        shapedRecipe = shapedRecipe.shape("ccc","cac","ccc");
+        shapedRecipe = shapedRecipe.setIngredient('a',new RecipeChoice.ExactChoice(ESSENCE_OF_RESTORATION))
+                .setIngredient('c',new RecipeChoice.ExactChoice(SOUL_OF_SMELTING));
+        Bukkit.addRecipe(shapedRecipe);
+        //回春余烬
+        shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "RESTORATIVE_EMBER"), RESTORATIVE_EMBER);
+        shapedRecipe = shapedRecipe.shape("aaa","ccc","bbb");
+        shapedRecipe = shapedRecipe.setIngredient('a',Material.DIAMOND)
+                .setIngredient('b',Material.NETHERITE_INGOT)
+                .setIngredient('c',new RecipeChoice.ExactChoice(ESSENCE_OF_RESTORATION));
+        Bukkit.addRecipe(shapedRecipe);
+        //gui菜单
+        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(new NamespacedKey(javaPlugin, "GUI_MENU"), GUI_MENU);
+        shapelessRecipe = shapelessRecipe.addIngredient(1,Material.CLOCK);
+        Bukkit.addRecipe(shapelessRecipe);
     }
 
 
