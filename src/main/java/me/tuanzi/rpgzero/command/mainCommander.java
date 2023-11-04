@@ -24,6 +24,7 @@ import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.refreshAttributes;
 import static me.tuanzi.rpgzero.draw.CreateItemStack.refreshOldItem;
 import static me.tuanzi.rpgzero.gui.ChestGUI.getMainGui;
+import static me.tuanzi.rpgzero.items.JavaItems.RECIPE_BOOK;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
 import static me.tuanzi.rpgzero.utils.Config.getPlayerConfig;
 import static me.tuanzi.rpgzero.utils.Config.setPlayerConfig;
@@ -95,6 +96,7 @@ public class mainCommander implements TabExecutor {
                 , "/rpg draw 抽卡查询"
                 , "/rpg gui 打开GUI界面"
                 , "/rpg refresh 给背包里所有旧的装备一个Quality与Attribute."
+                , "/rpg recipe 获取一本知识之书,用于获取合成配方."
         );
     }
 
@@ -293,6 +295,13 @@ public class mainCommander implements TabExecutor {
         } else if (args[0].equals("help")) {
             sendHelp(sender);
             return true;
+        }else if (args[0].equals("recipe")){
+            if(sender instanceof Player player){
+                player.getInventory().addItem(RECIPE_BOOK);
+            } else {
+                sender.sendMessage("只有玩家可以使用这个命令!");
+            }
+            return true;
         }
 
         return true;
@@ -319,7 +328,7 @@ public class mainCommander implements TabExecutor {
         }
         if (args.length == 0 || args.length == 1) {
             //返回config,help,draw,server四个list
-            return Arrays.asList("config", "help", "draw", "server", "gui", "refresh");
+            return Arrays.asList("config", "help", "draw", "server", "gui", "refresh","recipe");
         }
         if (args[0].equals("config")) {
             if (args.length == 3) {

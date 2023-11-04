@@ -4,7 +4,9 @@ import me.tuanzi.rpgzero.draw.Rarity;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
@@ -12,16 +14,20 @@ import static me.tuanzi.rpgzero.draw.CreateItemStack.createDisplayItemStack;
 import static me.tuanzi.rpgzero.draw.CreateItemStack.createMiscItemStack;
 
 public class JavaItems {
+    public static final ItemStack GUI_MENU;
+    public static final ItemStack HELP_BOOK;
+    public static final ItemStack RECIPE_BOOK;
 
+
+
+    //has custom model
     public static final ItemStack SOUL_GEM;
     public static final ItemStack SPECTRAL_FRAGMENT;
     public static final ItemStack ETERNIAS_GAZE;
     public static final ItemStack REFRESHING_GLORY;
     public static final ItemStack RESTORATIVE_EMBER;
-
     public static final ItemStack SOUL_OF_SMELTING;
     public static final ItemStack ESSENCE_OF_RESTORATION;
-    public static final ItemStack GUI_MENU;
 
 
     //display
@@ -37,10 +43,36 @@ public class JavaItems {
     public static final ItemStack DISPLAY_RIGHT_ARROW;
     public static final ItemStack DISPLAY_ADD;
     public static final ItemStack DISPLAY_DISINTEGRATION ;
+    public static final ItemStack DISPLAY_REFRESH ;
 
     static {
         //不需要自定义模型
+        //菜单
         GUI_MENU = createMiscItemStack(Material.CLOCK,Rarity.SINGULAR,0,1,"§aGUI菜单","§b按右键打开菜单","§b手机端点一下也可以打开");
+        //帮助之书
+        HELP_BOOK = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta bookMeta = (BookMeta) HELP_BOOK.getItemMeta();
+        bookMeta.setAuthor("团子");
+        bookMeta.setTitle("帮助书");
+        StringBuilder text = new StringBuilder();
+        text.append("§a钟§r放在合成台上即可出现一个打开菜单的专属物品.\n");
+        text.append("请最好装配§b资源包§r进行游玩!\n");
+        text.append("俗称抽卡:在主世界§cx:909 y:63 z:-622§r有如何搭建.\n");
+        text.append("抽卡概率与原神/崩铁相同.\n");
+        text.append("合成表请输入/r recipe 获取.\n");
+        bookMeta.addPage(text.toString());
+        bookMeta.setGeneration(BookMeta.Generation.ORIGINAL);
+        HELP_BOOK.setItemMeta(bookMeta);
+        //合成表
+        RECIPE_BOOK = new ItemStack(Material.KNOWLEDGE_BOOK);
+        KnowledgeBookMeta knowledgeBookMeta = (KnowledgeBookMeta) RECIPE_BOOK.getItemMeta();
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "ETERNIAS_GAZE"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "REFRESHING_GLORY"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "RESTORATIVE_EMBER"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "GUI_MENU"));
+        RECIPE_BOOK.setItemMeta(knowledgeBookMeta);
 
         //灵魂之晶 15210000
         SOUL_GEM = createMiscItemStack(Material.EMERALD, Rarity.SUPREME, 15210000, 1, "§6灵魂之晶", "§7蕴含无尽智慧，触摸心灵深处。",
@@ -82,6 +114,7 @@ public class JavaItems {
                 , "§7赋予它们焕然一新的力量"
                 , "§7因此成为了铁匠工坊的宝物"
                 , "§7带来繁荣与创造力。"
+                , "§8获取方式:分解台"
         );
         //d复原精华 0006
         ESSENCE_OF_RESTORATION = createMiscItemStack(Material.EMERALD, Rarity.MAJESTIC, 15210006, 1, "§d复原精华",
@@ -89,6 +122,7 @@ public class JavaItems {
                 , "§7一位传奇魔法师发现了这个神秘物品"
                 , "§7它可以通过注入物品中"
                 , "§7使其焕发出崭新的光芒"
+                , "§8获取方式:分解台"
         );
         //装饰用 15219000开头
         DISPLAY_CONFIG = createDisplayItemStack(Material.EMERALD, 15219000, "§b设置", (String) null);
@@ -102,6 +136,7 @@ public class JavaItems {
         DISPLAY_RIGHT_ARROW = createDisplayItemStack(Material.EMERALD, 15219008, "§b ", (String) null);
         DISPLAY_ADD = createDisplayItemStack(Material.EMERALD, 15219009, "§b ", (String) null);
         DISPLAY_DISINTEGRATION = createDisplayItemStack(Material.EMERALD, 15219010, "§b分解台", (String) null);
+        DISPLAY_REFRESH = createDisplayItemStack(Material.EMERALD, 15219011, "§b更新背包内旧物品为新物品", (String) null);
     }
 
 }

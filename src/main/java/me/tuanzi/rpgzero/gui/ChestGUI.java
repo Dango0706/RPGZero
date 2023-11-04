@@ -63,7 +63,9 @@ public class ChestGUI implements Listener {
         //添加
         mainGui.setItem(8, DISPLAY_CLOSE);
         mainGui.setItem(21, DISPLAY_DISINTEGRATION);
+        mainGui.setItem(23, DISPLAY_REFRESH);
         mainGui.setItem(29, DISPLAY_FORGE);
+        mainGui.setItem(31, HELP_BOOK);
         mainGui.setItem(37, DISPLAY_CONFIG);
         //设置需要获取player的物品
         SkullMeta skullMeta = (SkullMeta) PLAYER_HEAD.getItemMeta();
@@ -129,10 +131,12 @@ public class ChestGUI implements Listener {
         }
         settings = (boolean) getPlayerConfig(player, "isDrawCountToast");
         if (settings) {
+            removeItemStackLore(enable);
             setItemStackDisplayName(enable, "是否启用抽卡通知?");
             addItemStackLore(enable, "§7抽卡是否告知您抽数与保底数");
             settingGui.setItem(22, enable);
         } else {
+            removeItemStackLore(disable);
             setItemStackDisplayName(disable, "是否启用抽卡通知?");
             addItemStackLore(disable, "§7抽卡是否告知您抽数与保底数");
             settingGui.setItem(22, disable);
@@ -200,10 +204,18 @@ public class ChestGUI implements Listener {
                     if(e.getRawSlot() == 21){
                         player.openInventory(getDisintegrationGui(player));
                     }
+                    //refresh
+                    if(e.getRawSlot() == 23){
+                        Bukkit.dispatchCommand(player, "r refresh");
+                        player.closeInventory();
+                    }
                     //forge
                     if (e.getRawSlot() == 29) {
                         player.openInventory(getForgeGui(player));
                     }
+                    //help_book
+                    if(e.getRawSlot() == 31)
+                        player.getInventory().addItem(HELP_BOOK);
                     //setting
                     if (e.getRawSlot() == 37) {
                         player.openInventory(getSettingGui(player));
