@@ -506,7 +506,6 @@ public class ChestGUI implements Listener {
                         }
                         if (inventory.getItem(15).getType() == Material.EMERALD || inventory.getItem(15).getType() == Material.BARRIER){
                             e.setCancelled(true);
-                            return;
                         }
                     }
                 }

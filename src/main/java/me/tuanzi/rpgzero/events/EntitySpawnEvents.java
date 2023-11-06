@@ -13,6 +13,7 @@ import static me.tuanzi.rpgzero.draw.CreateItemStack.refreshOldItem;
 public class EntitySpawnEvents implements Listener {
     @EventHandler
     public void EntitySpawnCreateItem(EntitySpawnEvent event) {
+        //怪物有装备 则更新他的装备
         if (event.getEntity() instanceof Monster monster) {
             ItemStack mainHand = monster.getEquipment().getItemInMainHand();
             ItemStack head = monster.getEquipment().getHelmet();

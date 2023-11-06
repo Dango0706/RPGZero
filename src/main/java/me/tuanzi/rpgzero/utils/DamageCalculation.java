@@ -7,9 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
+import static me.tuanzi.rpgzero.utils.ItemStackUtils.getEquipments;
 import static me.tuanzi.rpgzero.utils.LivingEntityAttribute.*;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetString;
 
@@ -101,38 +103,22 @@ public class DamageCalculation {
         javaPlugin.getLogger().info("buff前物理抗性:" + physicalResistance);
         javaPlugin.getLogger().info("buff前魔法抗性:" + magicResistance);
         //buff加防御力..
-
-        ItemStack helmet = victim.getEquipment().getHelmet();
-        ItemStack chest = victim.getEquipment().getChestplate();
-        ItemStack leg = victim.getEquipment().getLeggings();
-        ItemStack boot = victim.getEquipment().getBoots();
-        for (Quality quality : Quality.values()) {
-            try {
-                if (nbtGetString(helmet.getItemMeta(), "Quality").equals(quality.name())) {
-                    def += quality.getDefense();
-                    physicalResistance += quality.getPhysicalResistance();
-                    magicResistance += quality.getMagicResistance();
+        //装备quality
+        ArrayList<ItemStack> itemStacks = getEquipments(victim);
+        for (ItemStack itemStack1 : itemStacks) {
+            for (Quality quality : Quality.values()) {
+                if (itemStack1 != null && itemStack1.hasItemMeta()) {
+                    if (nbtGetString(itemStack1.getItemMeta(), "Quality").equals(quality.name())) {
+                        def += quality.getDefense();
+                        physicalResistance += quality.getPhysicalResistance();
+                        magicResistance += quality.getMagicResistance();
+                    }
                 }
-                if (nbtGetString(chest != null ? chest.getItemMeta() : null, "Quality").equals(quality.name())) {
-                    def += quality.getDefense();
-                    physicalResistance += quality.getPhysicalResistance();
-                    magicResistance += quality.getMagicResistance();
-                }
-                if (nbtGetString(leg.getItemMeta(), "Quality").equals(quality.name())) {
-                    def += quality.getDefense();
-                    physicalResistance += quality.getPhysicalResistance();
-                    magicResistance += quality.getMagicResistance();
-                }
-                if (nbtGetString(boot.getItemMeta(), "Quality").equals(quality.name())) {
-                    def += quality.getDefense();
-                    physicalResistance += quality.getPhysicalResistance();
-                    magicResistance += quality.getMagicResistance();
-                }
-            } catch (NullPointerException ignored) {
-
             }
-
         }
+        //buff
+
+
         javaPlugin.getLogger().info("buff后防御力:" + def);
         //计算防御力
         amount -= amount * (def / (def + 75));
@@ -143,7 +129,6 @@ public class DamageCalculation {
             javaPlugin.getLogger().info("buff后抗性:" + physicalResistance);
             amount *= (1.0 - physicalResistance);
         } else if (damageType == DamageType.MAGIC) {
-            
             javaPlugin.getLogger().info("伤害类型为魔法!");
             javaPlugin.getLogger().info("buff后抗性:" + magicResistance);
             amount *= (1.0 - magicResistance);

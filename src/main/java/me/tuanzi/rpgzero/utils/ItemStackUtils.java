@@ -1,5 +1,6 @@
 package me.tuanzi.rpgzero.utils;
 
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -8,6 +9,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ItemStackUtils {
+
+    public static ArrayList<ItemStack> getEquipments(LivingEntity livingEntity) {
+        ArrayList<ItemStack> itemStacks = new ArrayList<>();
+        ItemStack helmet = livingEntity.getEquipment().getHelmet();
+        ItemStack chest = livingEntity.getEquipment().getChestplate();
+        ItemStack leg = livingEntity.getEquipment().getLeggings();
+        ItemStack boot = livingEntity.getEquipment().getBoots();
+        itemStacks.add(helmet);
+        itemStacks.add(chest);
+        itemStacks.add(leg);
+        itemStacks.add(boot);
+        return itemStacks;
+    }
+
 
     public static ItemStack setItemStackCount(ItemStack itemStack, int count) {
         ItemStack itemStack1 = itemStack.clone();

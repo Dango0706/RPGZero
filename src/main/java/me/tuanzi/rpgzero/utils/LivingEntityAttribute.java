@@ -4,11 +4,14 @@ import me.tuanzi.rpgzero.attributes.ItemAttributes;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
+import static me.tuanzi.rpgzero.utils.ItemStackUtils.getEquipments;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetDouble;
 
 /**
@@ -26,18 +29,12 @@ public class LivingEntityAttribute {
 
     public static double getCalculationLivingEntityDefense(LivingEntity entity) {
         double amount = 0.0;
-        //增加装备
-        if (entity.getEquipment().getHelmet() != null && entity.getEquipment().getHelmet().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getHelmet().getItemMeta(), ItemAttributes.DEFENSE.name());
-        }
-        if (entity.getEquipment().getChestplate() != null && entity.getEquipment().getChestplate().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getChestplate().getItemMeta(), ItemAttributes.DEFENSE.name());
-        }
-        if (entity.getEquipment().getLeggings() != null && entity.getEquipment().getLeggings().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getLeggings().getItemMeta(), ItemAttributes.DEFENSE.name());
-        }
-        if (entity.getEquipment().getBoots() != null && entity.getEquipment().getBoots().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getBoots().getItemMeta(), ItemAttributes.DEFENSE.name());
+        //添加
+        ArrayList<ItemStack> itemStacks = getEquipments(entity);
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                amount += nbtGetDouble(itemStack.getItemMeta(), ItemAttributes.DEFENSE.name());
+            }
         }
         //增加盔甲和韧性
         amount += Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_ARMOR)).getValue() * 2;
@@ -55,17 +52,11 @@ public class LivingEntityAttribute {
     public static double getCalculationLivingEntityPhysicalResistance(LivingEntity entity) {
         double amount = 0.0;
         //增加装备
-        if (entity.getEquipment().getHelmet() != null && entity.getEquipment().getHelmet().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getHelmet().getItemMeta(), ItemAttributes.PHYSICAL_RESISTANCE.name());
-        }
-        if (entity.getEquipment().getChestplate() != null && entity.getEquipment().getChestplate().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getChestplate().getItemMeta(), ItemAttributes.PHYSICAL_RESISTANCE.name());
-        }
-        if (entity.getEquipment().getLeggings() != null && entity.getEquipment().getLeggings().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getLeggings().getItemMeta(), ItemAttributes.PHYSICAL_RESISTANCE.name());
-        }
-        if (entity.getEquipment().getBoots() != null && entity.getEquipment().getBoots().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getBoots().getItemMeta(), ItemAttributes.PHYSICAL_RESISTANCE.name());
+        ArrayList<ItemStack> itemStacks = getEquipments(entity);
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                amount += nbtGetDouble(itemStack.getItemMeta(), ItemAttributes.PHYSICAL_RESISTANCE.name());
+            }
         }
         return amount;
     }
@@ -80,17 +71,11 @@ public class LivingEntityAttribute {
     public static double getCalculationLivingEntityMagicResistance(LivingEntity entity) {
         double amount = 0.0;
         //增加装备
-        if (entity.getEquipment().getHelmet() != null && entity.getEquipment().getHelmet().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getHelmet().getItemMeta(), ItemAttributes.MAGIC_RESISTANCE.name());
-        }
-        if (entity.getEquipment().getChestplate() != null && entity.getEquipment().getChestplate().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getChestplate().getItemMeta(), ItemAttributes.MAGIC_RESISTANCE.name());
-        }
-        if (entity.getEquipment().getLeggings() != null && entity.getEquipment().getLeggings().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getLeggings().getItemMeta(), ItemAttributes.MAGIC_RESISTANCE.name());
-        }
-        if (entity.getEquipment().getBoots() != null && entity.getEquipment().getBoots().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getBoots().getItemMeta(), ItemAttributes.MAGIC_RESISTANCE.name());
+        ArrayList<ItemStack> itemStacks = getEquipments(entity);
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                amount += nbtGetDouble(itemStack.getItemMeta(), ItemAttributes.MAGIC_RESISTANCE.name());
+            }
         }
         return amount;
     }
@@ -105,21 +90,12 @@ public class LivingEntityAttribute {
     public static double getCalculationLivingEntityCritRate(LivingEntity entity) {
         double amount = 0.0;
         //增加装备
-        if (entity.getEquipment().getHelmet() != null && entity.getEquipment().getHelmet().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getHelmet().getItemMeta(), ItemAttributes.CRIT_RATE.name());
-        }
-        if (entity.getEquipment().getChestplate() != null && entity.getEquipment().getChestplate().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getChestplate().getItemMeta(), ItemAttributes.CRIT_RATE.name());
-        }
-        if (entity.getEquipment().getLeggings() != null && entity.getEquipment().getLeggings().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getLeggings().getItemMeta(), ItemAttributes.CRIT_RATE.name());
-        }
-        if (entity.getEquipment().getBoots() != null && entity.getEquipment().getBoots().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getBoots().getItemMeta(), ItemAttributes.CRIT_RATE.name());
-        }
-        entity.getEquipment().getItemInMainHand();
-        if (entity.getEquipment().getItemInMainHand().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getItemInMainHand().getItemMeta(), ItemAttributes.CRIT_RATE.name());
+        ArrayList<ItemStack> itemStacks = getEquipments(entity);
+        itemStacks.add(entity.getEquipment().getItemInMainHand());
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                amount += nbtGetDouble(itemStack.getItemMeta(), ItemAttributes.CRIT_RATE.name());
+            }
         }
         return amount;
     }
@@ -127,21 +103,12 @@ public class LivingEntityAttribute {
     public static double getCalculationLivingEntityAttackDamage(LivingEntity entity) {
         double amount = 0.0;
         //增加装备
-        if (entity.getEquipment().getHelmet() != null && entity.getEquipment().getHelmet().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getHelmet().getItemMeta(), ItemAttributes.ATTACK_DAMAGE.name());
-        }
-        if (entity.getEquipment().getChestplate() != null && entity.getEquipment().getChestplate().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getChestplate().getItemMeta(), ItemAttributes.ATTACK_DAMAGE.name());
-        }
-        if (entity.getEquipment().getLeggings() != null && entity.getEquipment().getLeggings().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getLeggings().getItemMeta(), ItemAttributes.ATTACK_DAMAGE.name());
-        }
-        if (entity.getEquipment().getBoots() != null && entity.getEquipment().getBoots().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getBoots().getItemMeta(), ItemAttributes.ATTACK_DAMAGE.name());
-        }
-        entity.getEquipment().getItemInMainHand();
-        if (entity.getEquipment().getItemInMainHand().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getItemInMainHand().getItemMeta(), ItemAttributes.ATTACK_DAMAGE.name());
+        ArrayList<ItemStack> itemStacks = getEquipments(entity);
+        itemStacks.add(entity.getEquipment().getItemInMainHand());
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                amount += nbtGetDouble(itemStack.getItemMeta(), ItemAttributes.ATTACK_DAMAGE.name());
+            }
         }
         return amount;
     }
@@ -156,20 +123,12 @@ public class LivingEntityAttribute {
     public static double getCalculationLivingEntityCritDamage(LivingEntity entity) {
         double amount = 0.0;
         //增加装备
-        if (entity.getEquipment().getHelmet() != null && entity.getEquipment().getHelmet().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getHelmet().getItemMeta(), ItemAttributes.CRIT_DAMAGE.name());
-        }
-        if (entity.getEquipment().getChestplate() != null && entity.getEquipment().getChestplate().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getChestplate().getItemMeta(), ItemAttributes.CRIT_DAMAGE.name());
-        }
-        if (entity.getEquipment().getLeggings() != null && entity.getEquipment().getLeggings().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getLeggings().getItemMeta(), ItemAttributes.CRIT_DAMAGE.name());
-        }
-        if (entity.getEquipment().getBoots() != null && entity.getEquipment().getBoots().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getBoots().getItemMeta(), ItemAttributes.CRIT_DAMAGE.name());
-        }
-        if (entity.getEquipment().getItemInMainHand().getItemMeta() != null) {
-            amount += nbtGetDouble(entity.getEquipment().getItemInMainHand().getItemMeta(), ItemAttributes.CRIT_DAMAGE.name()); /*entity.getEquipment().getItemInMainHand().getItemMeta().getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "CritDamage"), PersistentDataType.PrimitivePersistentDataType.DOUBLE, 0.0);*/
+        ArrayList<ItemStack> itemStacks = getEquipments(entity);
+        itemStacks.add(entity.getEquipment().getItemInMainHand());
+        for (ItemStack itemStack : itemStacks) {
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                amount += nbtGetDouble(itemStack.getItemMeta(), ItemAttributes.CRIT_DAMAGE.name());
+            }
         }
         return amount;
     }
