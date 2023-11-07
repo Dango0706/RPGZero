@@ -11,6 +11,7 @@ import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.geyser.api.GeyserApi;
 
 import java.util.Objects;
+import java.util.logging.Level;
 
 import static me.tuanzi.rpgzero.utils.Config.savePlayerConfig;
 
@@ -51,8 +52,9 @@ public final class RPGZero extends JavaPlugin {
         }
 
         new Initialize();
-
         savePlayerConfig();
+        if(getConfig().getBoolean("debug"))
+           getLogger().setLevel(Level.ALL);
         //event
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
         Bukkit.getPluginManager().registerEvents(new ItemAttributeUpdate(), this);

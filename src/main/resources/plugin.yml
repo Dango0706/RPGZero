@@ -1,5 +1,5 @@
 name: RPGZero
-version: '${version}'
+version: '1.0.0 beta3'
 main: me.tuanzi.rpgzero.RPGZero
 api-version: 1.20
 commands:
@@ -9,7 +9,7 @@ commands:
     usage: "/rpg help" # 用法
     description: "RPGzero" # 描述
     permission: "" # 需要的权限，通常不用
-    permission-message: "Only killer can do that!" # 无权限返回的消息，通常不用
+    permission-message: "" # 无权限返回的消息，通常不用
 softdepend:
   - Geyser-Spigot
   - Floodgate

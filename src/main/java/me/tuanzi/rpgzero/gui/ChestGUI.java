@@ -17,6 +17,8 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.logging.Level;
+
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.draw.DrawItems.*;
 import static me.tuanzi.rpgzero.items.JavaItems.*;
@@ -265,7 +267,7 @@ public class ChestGUI implements Listener {
         InventoryHolder inventoryHolder = inventory.getHolder();
         if (inventoryHolder instanceof GUIHolder) {
             if (player.getName().equals(((GUIHolder) inventoryHolder).getOwner().getName())) {
-                System.out.println(e.getRawSlot());
+                javaPlugin.getLogger().log(Level.FINE,String.valueOf(e.getRawSlot()));
                 if (inventoryView.getTitle().equals("§a主菜单")) {
                     //close
                     if (e.getRawSlot() == 8) {
@@ -639,7 +641,7 @@ public class ChestGUI implements Listener {
             if (isStringInTheLore(itemStack, "§b按右键打开菜单")) {
                 if (isBedrockPlayer(player)) {
                     //是基岩版的玩家
-                    javaPlugin.getLogger().info("手机版打开");
+                    javaPlugin.getLogger().log(Level.FINE,"手机版打开");
                 } else {
                     //是Java版的玩家
                     player.openInventory(getMainGui(player));

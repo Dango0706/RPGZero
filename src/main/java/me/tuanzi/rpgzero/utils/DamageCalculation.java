@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.utils.ItemStackUtils.getEquipments;
@@ -32,7 +33,7 @@ public class DamageCalculation {
     public static double damageCalculation(LivingEntity attacker, LivingEntity victim, double damage, DamageType damageType) {
         //最终伤害
         double amount = damage;
-        javaPlugin.getLogger().info("真实伤害:" + amount);
+        javaPlugin.getLogger().log(Level.FINE,"真实伤害:" + amount);
         //敌人防御力
         double def = getLivingEntityTotalDefense(victim);
         //敌人抗性
@@ -46,10 +47,10 @@ public class DamageCalculation {
         double increase = 0.0;
         //攻击力
         double attackDamage = getLivingEntityTotalAttackDamage(attacker);
-        javaPlugin.getLogger().info("buff前攻击力:" + attackDamage);
-        javaPlugin.getLogger().info("buff前暴击率:" + (critRate * 100) + "%");
-        javaPlugin.getLogger().info("buff前暴击伤害:" + (critDamage * 100) + "%");
-        javaPlugin.getLogger().info("buff前增伤:" + (increase * 100) + "%");
+        javaPlugin.getLogger().log(Level.FINE,"buff前攻击力:" + attackDamage);
+        javaPlugin.getLogger().log(Level.FINE,"buff前暴击率:" + (critRate * 100) + "%");
+        javaPlugin.getLogger().log(Level.FINE,"buff前暴击伤害:" + (critDamage * 100) + "%");
+        javaPlugin.getLogger().log(Level.FINE,"buff前增伤:" + (increase * 100) + "%");
         ItemStack itemStack = attacker.getEquipment().getItemInMainHand();
         ItemMeta itemMeta = itemStack.getItemMeta();
         //品质加伤害等
@@ -65,10 +66,10 @@ public class DamageCalculation {
         //除增伤外buff
 
 
-        javaPlugin.getLogger().info("buff后攻击力:" + attackDamage);
-        javaPlugin.getLogger().info("加攻击力后,伤害为:" + amount);
-        javaPlugin.getLogger().info("buff后暴击率:" + (critRate * 100) + "%");
-        javaPlugin.getLogger().info("buff后暴击伤害:" + (critDamage * 100) + "%");
+        javaPlugin.getLogger().log(Level.FINE,"buff后攻击力:" + attackDamage);
+        javaPlugin.getLogger().log(Level.FINE,"加攻击力后,伤害为:" + amount);
+        javaPlugin.getLogger().log(Level.FINE,"buff后暴击率:" + (critRate * 100) + "%");
+        javaPlugin.getLogger().log(Level.FINE,"buff后暴击伤害:" + (critDamage * 100) + "%");
         //暴击?
         double rank = new Random().nextDouble();
         if (rank <= critRate) {
@@ -76,12 +77,12 @@ public class DamageCalculation {
             if (attacker instanceof Player player) {
                 player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
             }
-            javaPlugin.getLogger().info("暴击!暴击后伤害:" + amount);
+            javaPlugin.getLogger().log(Level.FINE,"暴击!暴击后伤害:" + amount);
         }
         //buff加增伤/减伤
         //....
 
-        javaPlugin.getLogger().info("增伤数值:" + (increase * 100) + "%");
+        javaPlugin.getLogger().log(Level.FINE,"增伤数值:" + (increase * 100) + "%");
         //计算增伤减伤
         //超过200%的部分衰减一半,超过-50%的部分衰减一半,无法-150%.
         if (increase >= 1.0) {
@@ -93,15 +94,15 @@ public class DamageCalculation {
         } else {
             amount *= (1 + increase);
         }
-        javaPlugin.getLogger().info("增伤后伤害:" + amount);
+        javaPlugin.getLogger().log(Level.FINE,"增伤后伤害:" + amount);
         //减去攻击速度
         if(attacker instanceof Player player){
             amount *= player.getAttackCooldown();
         }
-        javaPlugin.getLogger().info("减去攻速后伤害:" + amount);
-        javaPlugin.getLogger().info("buff前防御力:" + def);
-        javaPlugin.getLogger().info("buff前物理抗性:" + physicalResistance);
-        javaPlugin.getLogger().info("buff前魔法抗性:" + magicResistance);
+        javaPlugin.getLogger().log(Level.FINE,"减去攻速后伤害:" + amount);
+        javaPlugin.getLogger().log(Level.FINE,"buff前防御力:" + def);
+        javaPlugin.getLogger().log(Level.FINE,"buff前物理抗性:" + physicalResistance);
+        javaPlugin.getLogger().log(Level.FINE,"buff前魔法抗性:" + magicResistance);
         //buff加防御力..
         //装备quality
         ArrayList<ItemStack> itemStacks = getEquipments(victim);
@@ -119,25 +120,25 @@ public class DamageCalculation {
         //buff
 
 
-        javaPlugin.getLogger().info("buff后防御力:" + def);
+        javaPlugin.getLogger().log(Level.FINE,"buff后防御力:" + def);
         //计算防御力
         amount -= amount * (def / (def + 75));
-        javaPlugin.getLogger().info("计算防御后伤害:" + amount);
+        javaPlugin.getLogger().log(Level.FINE,"计算防御后伤害:" + amount);
         if (damageType == DamageType.PHYSICAL) {
-            javaPlugin.getLogger().info("伤害类型为物理!");
+            javaPlugin.getLogger().log(Level.FINE,"伤害类型为物理!");
             physicalResistance += 0.1;
-            javaPlugin.getLogger().info("buff后抗性:" + physicalResistance);
+            javaPlugin.getLogger().log(Level.FINE,"buff后抗性:" + physicalResistance);
             amount *= (1.0 - physicalResistance);
         } else if (damageType == DamageType.MAGIC) {
-            javaPlugin.getLogger().info("伤害类型为魔法!");
-            javaPlugin.getLogger().info("buff后抗性:" + magicResistance);
+            javaPlugin.getLogger().log(Level.FINE,"伤害类型为魔法!");
+            javaPlugin.getLogger().log(Level.FINE,"buff后抗性:" + magicResistance);
             amount *= (1.0 - magicResistance);
         } else {
-            javaPlugin.getLogger().info("真实伤害!不计算抗性");
+            javaPlugin.getLogger().log(Level.FINE,"真实伤害!不计算抗性");
         }
 
-        javaPlugin.getLogger().info("计算抗性后最终伤害:" + amount);
-        javaPlugin.getLogger().info("##########");
+        javaPlugin.getLogger().log(Level.FINE,"计算抗性后最终伤害:" + amount);
+        javaPlugin.getLogger().log(Level.FINE,"##########");
         return amount;
     }
 
