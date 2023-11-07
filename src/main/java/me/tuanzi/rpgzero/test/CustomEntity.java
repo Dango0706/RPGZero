@@ -21,24 +21,29 @@ public class CustomEntity extends EntityZombie {
 
     public CustomEntity(Location location) {
         this(EntityTypes.bp, ((CraftWorld) location.getWorld()).getHandle());
+        //设置位置
         e(location.getX(),location.getY(),location.getZ());
     }
-
+    //在身边
     @Override
     public void c(EntityPlayer entityplayer) {
         super.c(entityplayer);
+        //添加player
         this.bossBar.a(entityplayer);
     }
-
+    //不在身边
     @Override
     public void d(EntityPlayer entityplayer) {
         super.d(entityplayer);
+        //移除player
         this.bossBar.b(entityplayer);
     }
 
+    //tick
     @Override
     public void l() {
         super.l();
+        //设置血量百分比
         this.bossBar.a(eu() / eL());
     }
 }

@@ -1,22 +1,15 @@
 package me.tuanzi.rpgzero.events;
 
-import me.tuanzi.rpgzero.test.CustomEntity;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_20_R2.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.draw.DrawItems.drawItem;
-import static me.tuanzi.rpgzero.gui.ChestGUI.getMainGui;
-import static me.tuanzi.rpgzero.utils.GeyserUtils.isBedrockPlayer;
-import static me.tuanzi.rpgzero.utils.ItemStackUtils.isStringInTheLore;
 
 public class PlayerDrawEvent implements Listener {
     static Material getBlockType(World world, int x, int y, int z) {
@@ -95,34 +88,11 @@ public class PlayerDrawEvent implements Listener {
         }
     }
 
+    //test
     @EventHandler
     public void useMenu(PlayerInteractEvent event){
-        /*if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (isBedrockPlayer(event.getPlayer()) && event.getPlayer().getEquipment().getItemInMainHand().getType() == Material.CLOCK) {
-                ModalForm form = ModalForm.builder()
-                        .title("标题")
-                        .content("哈哈!")
-                        .button1("按钮")
-                        .button2("按钮").build();
-                sendForm(event.getPlayer(), form);
-            }
-        }*/
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK){
+/*        if(event.getAction() == Action.LEFT_CLICK_BLOCK){
             ((CraftWorld) event.getPlayer().getWorld()).getHandle().addFreshEntity(new CustomEntity(event.getPlayer().getLocation()), CreatureSpawnEvent.SpawnReason.CUSTOM);
-        }
-
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
-            Player player = event.getPlayer();
-            ItemStack itemStack = player.getEquipment().getItemInMainHand();
-            if(isStringInTheLore(itemStack,"§b按右键打开菜单")){
-                if (isBedrockPlayer(player)) {
-                    //是基岩版的玩家
-                    javaPlugin.getLogger().info("手机版打开");
-                } else {
-                    //是Java版的玩家
-                    player.openInventory(getMainGui(player));
-                }
-            }
-        }
+        }*/
     }
 }

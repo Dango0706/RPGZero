@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 public class utils {
 
-    public static String formatNumber( double number) {
+    public static String formatNumber(double number) {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String formattedNumber = decimalFormat.format(number);
         if (formattedNumber.endsWith(".00")) {

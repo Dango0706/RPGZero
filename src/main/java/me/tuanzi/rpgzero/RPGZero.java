@@ -3,6 +3,7 @@ package me.tuanzi.rpgzero;
 import me.tuanzi.rpgzero.command.mainCommander;
 import me.tuanzi.rpgzero.events.*;
 import me.tuanzi.rpgzero.gui.ChestGUI;
+import me.tuanzi.rpgzero.utils.Initialize;
 import me.tuanzi.rpgzero.utils.Recipe;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,6 +49,9 @@ public final class RPGZero extends JavaPlugin {
             hasGeyser = false;
             getLogger().warning("间歇泉未加载!无法使用基岩版等相关服务!");
         }
+
+        new Initialize();
+
         savePlayerConfig();
         //event
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);

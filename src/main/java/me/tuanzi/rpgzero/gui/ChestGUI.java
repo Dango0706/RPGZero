@@ -7,18 +7,23 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
+import static me.tuanzi.rpgzero.draw.DrawItems.*;
 import static me.tuanzi.rpgzero.items.JavaItems.*;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
 import static me.tuanzi.rpgzero.utils.Config.getPlayerConfig;
 import static me.tuanzi.rpgzero.utils.Config.setPlayerConfig;
+import static me.tuanzi.rpgzero.utils.GeyserUtils.isBedrockPlayer;
 import static me.tuanzi.rpgzero.utils.ItemStackUtils.*;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.*;
 
@@ -30,6 +35,9 @@ public class ChestGUI implements Listener {
     private static Inventory settingGui;
     private static Inventory forgeGui;
     private static Inventory disintegrationGui;
+    private final static Inventory wishUPGui;
+    private final static Inventory otherWishItemGui;
+    private static Inventory wishGui;
 
     static {
         //设置ItemStack
@@ -39,6 +47,55 @@ public class ChestGUI implements Listener {
         itemStack = new ItemStack(Material.PLAYER_HEAD);
         PLAYER_HEAD = itemStack;
 
+        //静态初始化up卡池
+        wishUPGui = createEasyInventory(new GUIHolder(Bukkit.getPlayer("Xiao_Gao")), 5, "§bUP一览", MAIN_GUI_DISPLAY);
+        otherWishItemGui = createEasyInventory(new GUIHolder(Bukkit.getPlayer("Xiao_Gao")), 6, "§b其余物品一览", new ItemStack(Material.AIR));
+        itemStack = DISPLAY_TIP.clone();
+        removeItemStackLore(itemStack);
+        addItemStackLore(itemStack, "§b属性与品质仅供参考", "§b上方为至高稀有度UP,下方为威严稀有度UP");
+        wishUPGui.setItem(0, itemStack);
+
+        otherWishItemGui.setItem(48, itemStack);
+
+        wishUPGui.setItem(8, DISPLAY_HOME);
+        wishUPGui.setItem(36, DISPLAY_BACK);
+        itemStack = DISPLAY_RIGHT_ARROW.clone();
+        removeItemStackLore(itemStack);
+        addItemStackLore(itemStack, "§b查看其余可能出现的物品");
+        wishUPGui.setItem(44, itemStack);
+        for (int i = 0; i < 7; i++) {
+            wishUPGui.setItem(19 + i, MAIN_GUI_DISPLAY);
+        }
+        for (int i = 0; i < upGolden.size(); i++) {
+            ItemStack itemStack1 = upGolden.get(i);
+            wishUPGui.setItem(10 + i, itemStack1);
+        }
+        for (int i = 0; i < upPurple.size(); i++) {
+            ItemStack itemStack1 = upPurple.get(i);
+            wishUPGui.setItem(28 + i, itemStack1);
+        }
+
+        otherWishItemGui.setItem(45, DISPLAY_BACK);
+        otherWishItemGui.setItem(50, DISPLAY_HOME);
+        otherWishItemGui.setItem(53, itemStack);
+        for (int i = 0; i < allGolden.size(); i++) {
+            ItemStack itemStack1 = allGolden.get(i);
+            otherWishItemGui.setItem(i, itemStack1);
+        }
+        int max = Math.min(allGolden.size() + allPurple.size(), 45);
+        int a = 0;
+        for (int i = allGolden.size(); i < max; i++) {
+            ItemStack itemStack1 = allPurple.get(a);
+            otherWishItemGui.setItem(i, itemStack1);
+            a++;
+        }
+        a = 0;
+        max = Math.min(allPurple.size() + allBlue.size() + allGolden.size(), 45);
+        for (int i = allPurple.size() + allGolden.size(); i < max; i++) {
+            ItemStack itemStack1 = allBlue.get(a);
+            otherWishItemGui.setItem(i, itemStack1);
+            a++;
+        }
     }
 
     private static Inventory createEasyInventory(InventoryHolder holder, int size, String title, ItemStack display) {
@@ -56,6 +113,19 @@ public class ChestGUI implements Listener {
         return inventory;
     }
 
+    public static Inventory getWishGui(Player player) {
+        wishGui = createEasyInventory(new GUIHolder(player), 6, "§b祈愿", MAIN_GUI_DISPLAY);
+        wishGui.setItem(8, DISPLAY_HOME);
+        ItemStack itemStack = DISPLAY_TIP.clone();
+        removeItemStackLore(itemStack);
+        addItemStackLore(itemStack, "§a点击查看您的总抽卡次数");
+        wishGui.setItem(11, itemStack);
+        removeItemStackLore(itemStack);
+        addItemStackLore(itemStack, "§a点击查看当期卡池up情况");
+        wishGui.setItem(13, itemStack);
+        wishGui.setItem(45, DISPLAY_BACK);
+        return wishGui;
+    }
 
     public static Inventory getMainGui(Player player) {
         //设置MainGui
@@ -67,6 +137,7 @@ public class ChestGUI implements Listener {
         mainGui.setItem(29, DISPLAY_FORGE);
         mainGui.setItem(31, HELP_BOOK);
         mainGui.setItem(37, DISPLAY_CONFIG);
+        mainGui.setItem(39, DISPLAY_WISH);
         //设置需要获取player的物品
         SkullMeta skullMeta = (SkullMeta) PLAYER_HEAD.getItemMeta();
         skullMeta.setOwningPlayer(Bukkit.getPlayer(player.getName()));
@@ -214,11 +285,15 @@ public class ChestGUI implements Listener {
                         player.openInventory(getForgeGui(player));
                     }
                     //help_book
-                    if(e.getRawSlot() == 31)
+                    if (e.getRawSlot() == 31)
                         player.getInventory().addItem(HELP_BOOK);
                     //setting
                     if (e.getRawSlot() == 37) {
                         player.openInventory(getSettingGui(player));
+                    }
+                    //wish
+                    if (e.getRawSlot() == 39) {
+                        player.openInventory(getWishGui(player));
                     }
                     e.setCancelled(true);
                 }
@@ -501,18 +576,76 @@ public class ChestGUI implements Listener {
                     }
                     //如果15是绿宝石 或者是空的则取消
                     if (e.getRawSlot() == 15) {
-                        if(inventory.getItem(15) == null){
+                        if (inventory.getItem(15) == null) {
                             inventory.setItem(15, new ItemStack(Material.BARRIER));
                         }
-                        if (inventory.getItem(15).getType() == Material.EMERALD || inventory.getItem(15).getType() == Material.BARRIER){
+                        if (inventory.getItem(15).getType() == Material.EMERALD || inventory.getItem(15).getType() == Material.BARRIER) {
                             e.setCancelled(true);
                         }
                     }
                 }
+                if (inventoryView.getTitle().equals("§b祈愿")) {
+                    e.setCancelled(true);
+                    //back to home
+                    if (e.getRawSlot() == 45 || e.getRawSlot() == 8) {
+                        player.openInventory(getMainGui(player));
+                    }
+                    //draw history
+                    if (e.getRawSlot() == 11) {
+                        Bukkit.dispatchCommand(player, "r draw");
+                        player.closeInventory();
+                    }
+                    if (e.getRawSlot() == 13) {
+                        player.openInventory(wishUPGui);
+                    }
 
+                }
+                if (inventoryView.getTitle().equals("§bUP一览")) {
+                    e.setCancelled(true);
+                    //to home
+                    if (e.getRawSlot() == 8) {
+                        player.openInventory(getMainGui(player));
+                    }
+                    //back
+                    if (e.getRawSlot() == 36) {
+                        player.openInventory(getWishGui(player));
+                    }
+                    //go on
+                    if (e.getRawSlot() == 44) {
+                        player.openInventory(otherWishItemGui);
+                    }
+                }
+                if (inventoryView.getTitle().equals("§b其余物品一览")) {
+                    e.setCancelled(true);
+                    //to home
+                    if (e.getRawSlot() == 50) {
+                        player.openInventory(getMainGui(player));
+                    }
+                    //back
+                    if (e.getRawSlot() == 45) {
+                        player.openInventory(wishUPGui);
+                    }
+                }
             }
         }
 
+    }
+
+    @EventHandler
+    public void useMenu(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+            Player player = event.getPlayer();
+            ItemStack itemStack = player.getEquipment().getItemInMainHand();
+            if (isStringInTheLore(itemStack, "§b按右键打开菜单")) {
+                if (isBedrockPlayer(player)) {
+                    //是基岩版的玩家
+                    javaPlugin.getLogger().info("手机版打开");
+                } else {
+                    //是Java版的玩家
+                    player.openInventory(getMainGui(player));
+                }
+            }
+        }
     }
 
 }

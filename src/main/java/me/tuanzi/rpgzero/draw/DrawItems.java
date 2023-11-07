@@ -13,37 +13,24 @@ import java.util.Random;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.refreshAttributes;
+import static me.tuanzi.rpgzero.command.mainCommander.sendPlayerDrawCount;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
 import static me.tuanzi.rpgzero.utils.Config.playerConfig;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetBoolean;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetString;
 
 public class DrawItems {
+
+    //所有常驻三星四星五星
+    public static List<ItemStack> allBlue = new ArrayList<>();
+    public static List<ItemStack> allPurple = new ArrayList<>();
+    public static List<ItemStack> allGolden = new ArrayList<>();
+    //up
+    public static List<ItemStack> upPurple = new ArrayList<>();
+    public static List<ItemStack> upGolden = new ArrayList<>();
+
+
     public DrawItems() {
-
-    }
-
-    //抽卡
-    public static ItemStack drawItem(Player player, Location location) {
-        ItemStack result = new ItemStack(Material.AIR);
-        //总抽数
-        int totalCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 0) + 1;
-        //紫色抽数
-        int purpleCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 0) + 1;
-        //金色抽数
-        int goldenCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 0) + 1;
-        //是紫保底吗
-        boolean isListPurple = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListPurple"), PersistentDataType.BOOLEAN, false);
-        //是金保底吗
-        boolean isListGolden = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListGolden"), PersistentDataType.BOOLEAN, false);
-
-        //所有常驻三星四星五星
-        List<ItemStack> allBlue = new ArrayList<>();
-        List<ItemStack> allPurple = new ArrayList<>();
-        List<ItemStack> allGolden = new ArrayList<>();
-        //up
-        List<ItemStack> upPurple = new ArrayList<>();
-        List<ItemStack> upGolden = new ArrayList<>();
         //添加卡池
         Class<DrawPools> poolsClass = DrawPools.class;
         Field[] fields = poolsClass.getDeclaredFields();
@@ -75,7 +62,21 @@ public class DrawItems {
                 }
             }
         }
+    }
 
+    //抽卡
+    public static ItemStack drawItem(Player player, Location location) {
+        ItemStack result = new ItemStack(Material.AIR);
+        //总抽数
+        int totalCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 0) + 1;
+        //紫色抽数
+        int purpleCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 0) + 1;
+        //金色抽数
+        int goldenCount = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 0) + 1;
+        //是紫保底吗
+        boolean isListPurple = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListPurple"), PersistentDataType.BOOLEAN, false);
+        //是金保底吗
+        boolean isListGolden = player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListGolden"), PersistentDataType.BOOLEAN, false);
         //抽卡
         Random random = new Random();
         double rank = random.nextDouble();
@@ -85,17 +86,7 @@ public class DrawItems {
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, purpleCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, totalCount);
         if(playerConfig.getBoolean(player.getName().toLowerCase()+".isDrawCountToast",true))
-            player.sendMessage("[系统]你总共抽了:" +
-                    totalCount +
-                    "次,你距离下个四星保底约为" +
-                    (10 - purpleCount) +
-                    "次,你距离下个五星保底为:" +
-                    (90 - goldenCount) +
-                    "次,你下次紫色是否是保底:" +
-                    isListPurple +
-                    "你下个五星是否是保底:" +
-                    isListGolden);
-
+            sendPlayerDrawCount(player);
         //保底计算
         if (goldenCount >= 90) {
             spawnO(location, 3);

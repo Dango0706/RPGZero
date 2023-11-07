@@ -44,6 +44,7 @@ public class JavaItems {
     public static final ItemStack DISPLAY_ADD;
     public static final ItemStack DISPLAY_DISINTEGRATION ;
     public static final ItemStack DISPLAY_REFRESH ;
+    public static final ItemStack DISPLAY_WISH ;
 
     static {
         //不需要自定义模型
@@ -137,6 +138,7 @@ public class JavaItems {
         DISPLAY_ADD = createDisplayItemStack(Material.EMERALD, 15219009, "§b ", (String) null);
         DISPLAY_DISINTEGRATION = createDisplayItemStack(Material.EMERALD, 15219010, "§b分解台", (String) null);
         DISPLAY_REFRESH = createDisplayItemStack(Material.EMERALD, 15219011, "§b更新背包内旧物品为新物品", (String) null);
+        DISPLAY_WISH = createDisplayItemStack(Material.EMERALD, 15219012, "§b祈愿相关", (String) null);
     }
 
 }

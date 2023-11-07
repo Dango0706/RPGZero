@@ -55,12 +55,23 @@ public class mainCommander implements TabExecutor {
         if (!input.matches("\\d+")) {
             return false;
         }
-
         // 将字符串转换为整数
         int number = Integer.parseInt(input);
-
         // 判断数字是否小于等于64
         return number <= 64;
+    }
+
+    public static void sendPlayerDrawCount(Player player){
+        player.sendMessage("§e[系统]§a你总共抽了:§b" +
+                (player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 1) + 1) +
+                "§a次,你距离下个四星保底约为§d" +
+                (10 - 1 - player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 0) + 1) +
+                "§a次,你距离下个五星保底为:§6" +
+                (90 - 1 - player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 0) + 1) +
+                "§a次,你下次紫色是否是保底:§d" +
+                player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListPurple"), PersistentDataType.BOOLEAN, false) +
+                "§a你下个五星是否是保底:§6" +
+                player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListGolden"), PersistentDataType.BOOLEAN, false));
     }
 
 
@@ -277,16 +288,7 @@ public class mainCommander implements TabExecutor {
             }
         } else if (args[0].equals("draw")) {
             if (sender instanceof Player player) {
-                player.sendMessage("[系统]你总共抽了:" +
-                        (player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, 1) + 1) +
-                        "次,你距离下个四星保底约为" +
-                        (10 - player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 0) + 1) +
-                        "次,你距离下个五星保底为:" +
-                        (90 - player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 0) + 1) +
-                        "次,你下次紫色是否是保底:" +
-                        player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListPurple"), PersistentDataType.BOOLEAN, false) +
-                        "你下个五星是否是保底:" +
-                        player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListGolden"), PersistentDataType.BOOLEAN, false));
+                sendPlayerDrawCount(player);
             } else {
                 sender.sendMessage("只有玩家可以使用这个命令!");
                 return true;

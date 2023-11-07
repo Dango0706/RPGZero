@@ -10,6 +10,7 @@ import java.util.*;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.*;
+import static me.tuanzi.rpgzero.utils.utils.formatNumber;
 
 public class CreateItemAttributes {
 
@@ -125,8 +126,7 @@ public class CreateItemAttributes {
                 nbtSetDouble(itemMeta, itemAttribute.name(), calculationUpdateAttributes(itemAttribute));
                 //取2位小数
                 double value = nbtGetDouble(itemMeta, itemAttribute.name());
-                DecimalFormat decimalFormat = new DecimalFormat("#.00");
-                String number = decimalFormat.format(value);
+                String number = formatNumber(value);
                 if (itemAttribute == ItemAttributes.ATTACK_DAMAGE || itemAttribute == ItemAttributes.DEFENSE) {
                     if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number);
@@ -142,7 +142,7 @@ public class CreateItemAttributes {
 
                     }
                 } else {
-                    number = decimalFormat.format(value * 100);
+                    number = formatNumber(value * 100);
                     if (!refresh) {
                         lore.add("§a" + itemAttribute.getDisplayName() + "+" + number + "%");
                     } else {
