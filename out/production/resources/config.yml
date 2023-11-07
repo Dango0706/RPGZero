@@ -1,2 +1,4 @@
+#是否启用debug?一般无需设置
+debug: false
 #是否取消抽卡机制
 cancel_draw: false
