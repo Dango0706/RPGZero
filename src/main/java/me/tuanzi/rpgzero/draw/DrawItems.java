@@ -112,7 +112,9 @@ public class DrawItems {
                     spawnO(location, 2);
                     return getPurpleItemStack(player, isListPurple, allPurple, upPurple, upGolden, random);
                 } else {
-                    spawnO(location, 1);
+//                    spawnO(location, 1);
+                    drawShape(location);
+
                     ItemStack itemStack;
                     itemStack = allBlue.get(random.nextInt(allBlue.size()));
                     itemStack = refreshQuality(itemStack);
@@ -189,7 +191,7 @@ public class DrawItems {
         return itemStack;
     }
 
-
+    //画圆
     static void spawnO(Location location, int result) {
         final Location location1 = location.add(0.5, -0.25, 0.5);
         Bukkit.getScheduler().runTaskLater(javaPlugin, () -> {
@@ -201,13 +203,10 @@ public class DrawItems {
                 Location newLocation = new Location(location1.getWorld(), x, y, z);
                 if (result == 1) {
                     location1.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 1, 0, 0, 0, new Particle.DustOptions(Color.BLUE, 1.0f));
-//                    location1.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, newLocation, 0, 0, 0, 1, 0);
                 } else if (result == 2) {
                     location1.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 1, 0, 0, 0, new Particle.DustOptions(Color.PURPLE, 1.0f));
-//                    location1.getWorld().spawnParticle(Particle.DRAGON_BREATH, newLocation, 0, 0, 0, 1, 0);
                 } else {
                     location1.getWorld().spawnParticle(Particle.REDSTONE, newLocation, 1, 0, 0, 0, new Particle.DustOptions(Color.YELLOW, 1.0f));
-//                    location1.getWorld().spawnParticle(Particle.CHERRY_LEAVES, newLocation, 0, 0, 0, 1, 0);
                 }
             }
             if (result == 1) {
@@ -218,9 +217,62 @@ public class DrawItems {
                 location.getWorld().playSound(location1, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
             }
         }, 1L);
-
-
     }
+
+    //画圆+内部五角星
+    public static void drawShape(Location location) {
+        final Location loc = location.add(0.5, -0.25, 0.5);
+        // 获取世界对象
+        World world = loc.getWorld();
+        // 定义粒子的颜色和大小
+        Particle.DustOptions dustOptions = new Particle.DustOptions(Color.BLUE, 1.0F);
+        // 定义圆圈的半径和角度间隔
+        double circleRadius = 2.0;
+        double circleInterval = Math.PI / 180.0;
+        // 定义五角星的半径和圆心角
+        double starRadius = 1.5;
+        double starAngle = Math.PI / 5.0;
+        // 定义粒子的数量和偏移量
+        int count = 1;
+        double offsetX = 0.0;
+        double offsetY = 0.0;
+        double offsetZ = 0.0;
+        // 定义五角星的偏移量
+        double starOffset = 0.0;
+        // 定义线条的点数
+        int linePoints = 10;
+        // 计算并绘制五角星的线条
+        for (int i = 0; i < 5; i++) {
+            // 计算线条的起点和终点的坐标
+            double x1 = loc.getX() + starOffset + starRadius * Math.sin(i * 2 * starAngle);
+            double y1 = loc.getY();
+            double z1 = loc.getZ() + starOffset + starRadius * Math.cos(i * 2 * starAngle);
+            double x2 = loc.getX() + starOffset + starRadius * Math.sin((i + 2) % 5 * 2 * starAngle);
+            double y2 = loc.getY();
+            double z2 = loc.getZ() + starOffset + starRadius * Math.cos((i + 2) % 5 * 2 * starAngle);
+            // 计算线条上每个点的坐标增量
+            double dx = (x2 - x1) / linePoints;
+            double dy = (y2 - y1) / linePoints;
+            double dz = (z2 - z1) / linePoints;
+            // 在线条上的每个点上生成粒子
+            for (int j = 0; j <= linePoints; j++) {
+                double x = x1 + j * dx;
+                double y = y1 + j * dy;
+                double z = z1 + j * dz;
+                world.spawnParticle(Particle.REDSTONE, x, y, z, count, offsetX, offsetY, offsetZ, dustOptions);
+            }
+        }
+        // 计算并绘制圆圈的点
+        for (double angle = 0.0; angle < 2 * Math.PI; angle += circleInterval) {
+            // 计算点的坐标
+            double x = loc.getX() + circleRadius * Math.sin(angle);
+            double y = loc.getY();
+            double z = loc.getZ() + circleRadius * Math.cos(angle);
+            // 在点上生成粒子
+            world.spawnParticle(Particle.REDSTONE, x, y, z, count, offsetX, offsetY, offsetZ, dustOptions);
+        }
+    }
+
 
 
 }

@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.logging.Level;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
+import static me.tuanzi.rpgzero.RPGZero.logger;
 import static me.tuanzi.rpgzero.utils.Config.playerConfig;
 import static me.tuanzi.rpgzero.utils.DamageCalculation.damageCalculation;
 import static me.tuanzi.rpgzero.utils.DamageType.*;
@@ -26,8 +27,8 @@ public class DamageEvent implements Listener {
                 return;
             if (victim instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase() + ".isNewDamageCalculate", true))
                 return;
-            javaPlugin.getLogger().log(Level.FINE,"##########");
-            javaPlugin.getLogger().log(Level.FINE,"原最终伤害:" + event.getFinalDamage());
+            logger.log(Level.FINE,"####################");
+            logger.log(Level.FINE,"原最终伤害:" + event.getFinalDamage());
             //盔甲伤害减免设置为0
             event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, 0);
             //默认为物理伤害

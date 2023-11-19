@@ -10,8 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.geyser.api.GeyserApi;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import static me.tuanzi.rpgzero.utils.Config.savePlayerConfig;
 
@@ -22,6 +27,7 @@ public final class RPGZero extends JavaPlugin {
     public static boolean hasGeyser;
     public static boolean hasFloodgate;
 
+    public static Logger logger;
 
     public static GeyserApi geyserApi;
     public static FloodgateApi floodgateApi;
@@ -35,6 +41,7 @@ public final class RPGZero extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         javaPlugin = this;
+        //检测有无Geyser
         if (Bukkit.getPluginManager().getPlugin("Geyser-Spigot") != null && Bukkit.getPluginManager().getPlugin("Geyser-Spigot").isEnabled()) {
             hasGeyser = true;
             geyserApi = GeyserApi.api();
@@ -50,11 +57,31 @@ public final class RPGZero extends JavaPlugin {
             hasGeyser = false;
             getLogger().warning("间歇泉未加载!无法使用基岩版等相关服务!");
         }
-
+        logger = getLogger();
+        //初始化
         new Initialize();
         savePlayerConfig();
-        if(getConfig().getBoolean("debug"))
-           getLogger().setLevel(Level.ALL);
+        //debug相关
+        if (getConfig().getBoolean("debug")) {
+            getLogger().setLevel(Level.ALL);
+            FileHandler fileHandler;
+            //创建文件夹
+            if(!new File(this.getDataFolder() + "/debug").exists())
+                new File(this.getDataFolder() + "/debug").mkdirs();
+            //增加文件目录
+            try {
+                fileHandler = new FileHandler(this.getDataFolder() + "/debug/debug.log");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            // 创建一个SimpleFormatter对象
+            SimpleFormatter simpleFormatter = new SimpleFormatter();
+            // 将SimpleFormatter对象设置为FileHandler对象的格式化器
+            fileHandler.setFormatter(simpleFormatter);
+            // add handler
+            logger.addHandler(fileHandler);
+        }
+
         //event
         Bukkit.getPluginManager().registerEvents(new DamageEvent(), this);
         Bukkit.getPluginManager().registerEvents(new ItemAttributeUpdate(), this);
@@ -71,24 +98,20 @@ public final class RPGZero extends JavaPlugin {
             Bukkit.getPluginCommand("rpg").setExecutor(new mainCommander());
         }
         Objects.requireNonNull(Bukkit.getPluginCommand("rpg")).setTabCompleter(new mainCommander());
-        //geyser
 
-        getLogger().info("RPGZero已加载!");
+        logger.info("RPGZero已加载!");
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
         Bukkit.resetRecipes();
+        logger.info("RPGZero已关闭!");
     }
 
     @Override
     public void onLoad() {
         saveDefaultConfig();
     }
-
-
-
-
 
 }
