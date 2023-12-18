@@ -150,9 +150,11 @@ public class dropFragment implements Listener {
                 }
             }
         }
-        //其他方块
-        if (new Random().nextDouble() <= 0.0005) {
-            e.getPlayer().getWorld().dropItem(e.getBlock().getLocation(), SPECTRAL_FRAGMENT);
+        //其他方块(除了雪顶)
+        if(!e.getBlock().getType().name().equals("SNOW")){
+            if (new Random().nextDouble() <= 0.0005) {
+                e.getPlayer().getWorld().dropItem(e.getBlock().getLocation(), SPECTRAL_FRAGMENT);
+            }
         }
     }
 
