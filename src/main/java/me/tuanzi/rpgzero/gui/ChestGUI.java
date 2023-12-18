@@ -37,8 +37,8 @@ public class ChestGUI implements Listener {
     private static Inventory settingGui;
     private static Inventory forgeGui;
     private static Inventory disintegrationGui;
-    private final static Inventory wishUPGui;
-    private final static Inventory otherWishItemGui;
+    private static Inventory wishUPGui;
+    private static Inventory otherWishItemGui;
     private static Inventory wishGui;
 
     static {
@@ -49,55 +49,6 @@ public class ChestGUI implements Listener {
         itemStack = new ItemStack(Material.PLAYER_HEAD);
         PLAYER_HEAD = itemStack;
 
-        //静态初始化up卡池
-        wishUPGui = createEasyInventory(new GUIHolder(Bukkit.getPlayer("Xiao_Gao")), 5, "§bUP一览", MAIN_GUI_DISPLAY);
-        otherWishItemGui = createEasyInventory(new GUIHolder(Bukkit.getPlayer("Xiao_Gao")), 6, "§b其余物品一览", new ItemStack(Material.AIR));
-        itemStack = DISPLAY_TIP.clone();
-        removeItemStackLore(itemStack);
-        addItemStackLore(itemStack, "§b属性与品质仅供参考", "§b上方为至高稀有度UP,下方为威严稀有度UP");
-        wishUPGui.setItem(0, itemStack);
-
-        otherWishItemGui.setItem(48, itemStack);
-
-        wishUPGui.setItem(8, DISPLAY_HOME);
-        wishUPGui.setItem(36, DISPLAY_BACK);
-        itemStack = DISPLAY_RIGHT_ARROW.clone();
-        removeItemStackLore(itemStack);
-        addItemStackLore(itemStack, "§b查看其余可能出现的物品");
-        wishUPGui.setItem(44, itemStack);
-        for (int i = 0; i < 7; i++) {
-            wishUPGui.setItem(19 + i, MAIN_GUI_DISPLAY);
-        }
-        for (int i = 0; i < upGolden.size(); i++) {
-            ItemStack itemStack1 = upGolden.get(i);
-            wishUPGui.setItem(10 + i, itemStack1);
-        }
-        for (int i = 0; i < upPurple.size(); i++) {
-            ItemStack itemStack1 = upPurple.get(i);
-            wishUPGui.setItem(28 + i, itemStack1);
-        }
-
-        otherWishItemGui.setItem(45, DISPLAY_BACK);
-        otherWishItemGui.setItem(50, DISPLAY_HOME);
-        otherWishItemGui.setItem(53, itemStack);
-        for (int i = 0; i < allGolden.size(); i++) {
-            ItemStack itemStack1 = allGolden.get(i);
-            otherWishItemGui.setItem(i, itemStack1);
-        }
-        int max = Math.min(allGolden.size() + allPurple.size(), 45);
-        int a = 0;
-        for (int i = allGolden.size(); i < max; i++) {
-            ItemStack itemStack1 = allPurple.get(a);
-            otherWishItemGui.setItem(i, itemStack1);
-            a++;
-        }
-        a = 0;
-        max = Math.min(allPurple.size() + allBlue.size() + allGolden.size(), 45);
-        for (int i = allPurple.size() + allGolden.size(); i < max; i++) {
-            ItemStack itemStack1 = allBlue.get(a);
-            otherWishItemGui.setItem(i, itemStack1);
-            a++;
-        }
     }
 
     private static Inventory createEasyInventory(InventoryHolder holder, int size, String title, ItemStack display) {
@@ -215,6 +166,63 @@ public class ChestGUI implements Listener {
             settingGui.setItem(22, disable);
         }
         return settingGui;
+    }
+
+    public static Inventory getWishUPGui(Player player){
+        wishUPGui = createEasyInventory(new GUIHolder(player), 5, "§bUP一览", MAIN_GUI_DISPLAY);
+        ItemStack itemStack;
+        wishUPGui.setItem(8, DISPLAY_HOME);
+        wishUPGui.setItem(36, DISPLAY_BACK);
+        itemStack = DISPLAY_RIGHT_ARROW.clone();
+        removeItemStackLore(itemStack);
+        addItemStackLore(itemStack, "§b查看其余可能出现的物品");
+        wishUPGui.setItem(44, itemStack);
+        for (int i = 0; i < 7; i++) {
+            wishUPGui.setItem(19 + i, MAIN_GUI_DISPLAY);
+        }
+        for (int i = 0; i < upGolden.size(); i++) {
+            ItemStack itemStack1 = upGolden.get(i);
+            wishUPGui.setItem(10 + i, itemStack1);
+        }
+        for (int i = 0; i < upPurple.size(); i++) {
+            ItemStack itemStack1 = upPurple.get(i);
+            wishUPGui.setItem(28 + i, itemStack1);
+        }
+
+        return wishUPGui;
+    }
+
+    public static Inventory getOtherWishItemGui(Player player){
+        otherWishItemGui = createEasyInventory(new GUIHolder(Bukkit.getPlayer("Xiao_Gao")), 6, "§b其余物品一览", new ItemStack(Material.AIR));
+        ItemStack itemStack;
+        itemStack = DISPLAY_TIP.clone();
+        removeItemStackLore(itemStack);
+        addItemStackLore(itemStack, "§b属性与品质仅供参考", "§b上方为至高稀有度UP,下方为威严稀有度UP");
+        wishUPGui.setItem(0, itemStack);
+        otherWishItemGui.setItem(48, itemStack);
+        otherWishItemGui.setItem(45, DISPLAY_BACK);
+        otherWishItemGui.setItem(50, DISPLAY_HOME);
+        otherWishItemGui.setItem(53, itemStack);
+        for (int i = 0; i < allGolden.size(); i++) {
+            ItemStack itemStack1 = allGolden.get(i);
+            otherWishItemGui.setItem(i, itemStack1);
+        }
+        int max = Math.min(allGolden.size() + allPurple.size(), 45);
+        int a = 0;
+        for (int i = allGolden.size(); i < max; i++) {
+            ItemStack itemStack1 = allPurple.get(a);
+            otherWishItemGui.setItem(i, itemStack1);
+            a++;
+        }
+        a = 0;
+        max = Math.min(allPurple.size() + allBlue.size() + allGolden.size(), 45);
+        for (int i = allPurple.size() + allGolden.size(); i < max; i++) {
+            ItemStack itemStack1 = allBlue.get(a);
+            otherWishItemGui.setItem(i, itemStack1);
+            a++;
+        }
+
+        return otherWishItemGui;
     }
 
     @EventHandler
@@ -598,7 +606,7 @@ public class ChestGUI implements Listener {
                         player.closeInventory();
                     }
                     if (e.getRawSlot() == 13) {
-                        player.openInventory(wishUPGui);
+                        player.openInventory(getWishUPGui(player));
                     }
 
                 }
@@ -614,7 +622,7 @@ public class ChestGUI implements Listener {
                     }
                     //go on
                     if (e.getRawSlot() == 44) {
-                        player.openInventory(otherWishItemGui);
+                        player.openInventory(getOtherWishItemGui(player));
                     }
                 }
                 if (inventoryView.getTitle().equals("§b其余物品一览")) {
@@ -625,7 +633,7 @@ public class ChestGUI implements Listener {
                     }
                     //back
                     if (e.getRawSlot() == 45) {
-                        player.openInventory(wishUPGui);
+                        player.openInventory(getWishUPGui(player));
                     }
                 }
             }

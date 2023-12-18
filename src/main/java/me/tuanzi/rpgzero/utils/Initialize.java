@@ -7,5 +7,7 @@ public class Initialize {
     public Initialize() {
         new DrawItems();
         new ChestGUI();
+
+
     }
 }

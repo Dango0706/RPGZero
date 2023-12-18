@@ -27,13 +27,13 @@ public class EntitySpawnEvents implements Listener {
                 monster.getEquipment().setHelmet(refreshOldItem(head));
             }
             if (chest != null) {
-                monster.getEquipment().setHelmet(refreshOldItem(chest));
+                monster.getEquipment().setChestplate(refreshOldItem(chest));
             }
             if (leg != null) {
-                monster.getEquipment().setHelmet(refreshOldItem(leg));
+                monster.getEquipment().setLeggings(refreshOldItem(leg));
             }
             if (boot != null) {
-                monster.getEquipment().setHelmet(refreshOldItem(boot));
+                monster.getEquipment().setBoots(refreshOldItem(boot));
             }
         }
     }

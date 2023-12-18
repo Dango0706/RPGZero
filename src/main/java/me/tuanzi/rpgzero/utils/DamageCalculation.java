@@ -151,9 +151,11 @@ public class DamageCalculation {
         //稀释效果
         double b = 0.01;
         // 使用简单的算术运算，计算自身受到的伤害
+        //防御力>=0
         if(def>=0){
             return damage / (1 + a * Math.log(1 + b * def));
         }
+        //否则则增加受到的伤害
         a = 0.05;
         b = 0.035;
         return damage * (1 + Math.max(0, -def) * Math.min(1, a / (1 + b * Math.abs(def))));

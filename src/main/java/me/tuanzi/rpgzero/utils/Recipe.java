@@ -13,6 +13,7 @@ import static me.tuanzi.rpgzero.items.JavaItems.*;
 public class Recipe {
 
     public Recipe() {
+        //有序合成
         //灵魂之晶
         ShapedRecipe shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM"), SOUL_GEM);
         shapedRecipe = shapedRecipe.shape("aba","dcd","aba");
@@ -20,19 +21,6 @@ public class Recipe {
                 .setIngredient('b',Material.DIAMOND_BLOCK)
                 .setIngredient('c',new RecipeChoice.ExactChoice(SPECTRAL_FRAGMENT))
                 .setIngredient('d',Material.RAW_GOLD);
-        Bukkit.addRecipe(shapedRecipe);
-        //幽光碎片
-        shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT"), SPECTRAL_FRAGMENT);
-        shapedRecipe = shapedRecipe.shape("abc","def","ghi");
-        shapedRecipe = shapedRecipe.setIngredient('a',Material.RAW_IRON)
-                .setIngredient('b',Material.HONEYCOMB)
-                .setIngredient('c',Material.SHULKER_SHELL)
-                .setIngredient('d',Material.RAW_COPPER)
-                .setIngredient('e',Material.GLOW_INK_SAC)
-                .setIngredient('f',Material.BLAZE_ROD)
-                .setIngredient('g',Material.RAW_GOLD)
-                .setIngredient('h',Material.PUFFERFISH)
-                .setIngredient('i',Material.PHANTOM_MEMBRANE);
         Bukkit.addRecipe(shapedRecipe);
         //永恒之眼
         shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "ETERNIAS_GAZE"), ETERNIAS_GAZE);
@@ -55,10 +43,39 @@ public class Recipe {
                 .setIngredient('b',Material.NETHERITE_INGOT)
                 .setIngredient('c',new RecipeChoice.ExactChoice(ESSENCE_OF_RESTORATION));
         Bukkit.addRecipe(shapedRecipe);
+        //无序合成
         //gui菜单
         ShapelessRecipe shapelessRecipe = new ShapelessRecipe(new NamespacedKey(javaPlugin, "GUI_MENU"), GUI_MENU);
         shapelessRecipe = shapelessRecipe.addIngredient(1,Material.CLOCK);
         Bukkit.addRecipe(shapelessRecipe);
+        //幽光碎片1
+        shapelessRecipe = new ShapelessRecipe(new NamespacedKey(javaPlugin,"SPECTRAL_FRAGMENT_1"),SPECTRAL_FRAGMENT);
+        shapelessRecipe = shapelessRecipe.addIngredient(Material.RAW_IRON)
+                .addIngredient(Material.HONEYCOMB)
+                .addIngredient(Material.SHULKER_SHELL)
+                .addIngredient(Material.RAW_COPPER)
+                .addIngredient(Material.GLOW_INK_SAC)
+                .addIngredient(Material.BLAZE_ROD)
+                .addIngredient(Material.RAW_GOLD)
+                .addIngredient(Material.PUFFERFISH)
+                .addIngredient(Material.PHANTOM_MEMBRANE);
+        Bukkit.addRecipe(shapelessRecipe);
+        //幽光碎片2
+        shapelessRecipe = new ShapelessRecipe(new NamespacedKey(javaPlugin,"SPECTRAL_FRAGMENT_2"),SPECTRAL_FRAGMENT);
+        shapelessRecipe = shapelessRecipe.addIngredient(Material.RAW_IRON)
+                .addIngredient(Material.RABBIT_HIDE)
+                .addIngredient(Material.SHULKER_SHELL)
+                .addIngredient(Material.RAW_COPPER)
+                .addIngredient(Material.GLOW_INK_SAC)
+                .addIngredient(Material.BLAZE_ROD)
+                .addIngredient(Material.RAW_GOLD)
+                .addIngredient(Material.PUFFERFISH)
+                .addIngredient(Material.PHANTOM_MEMBRANE);
+        Bukkit.addRecipe(shapelessRecipe);
+
+
+
+
     }
 
 

@@ -61,6 +61,6 @@ public class DrawPools {
     //noup
     static final ItemStack HOLY_DRAGON_SOUL_SWORD = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 15213001, 12, 1.6, "圣龙断魂", List.of("§7由圣龙之魂注入的剑，能够撕裂敌人的灵魂。"));
     static final ItemStack FLAME_JUDGEMENT = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 15213002, 12, 1.6, "火焰审判", List.of("§7传说中的绝世之剑，只选择命运的守护者为其主人。"));
-    static final ItemStack SHADOW_RECKONER = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 152130, 12, 1.6, "暗影裁决者","§7在被黑暗笼罩的夜晚，暗影裁决者从深渊中崛起","§7它的剑刃闪耀着无尽的黑暗力量，准确地裁决那些与黑暗同谋的罪人。");
+    static final ItemStack SHADOW_RECKONER = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, false, false, 15213003, 12, 1.6, "暗影裁决者","§7在被黑暗笼罩的夜晚，暗影裁决者从深渊中崛起","§7它的剑刃闪耀着无尽的黑暗力量，准确地裁决那些与黑暗同谋的罪人。");
 
 }

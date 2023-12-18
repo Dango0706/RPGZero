@@ -68,9 +68,9 @@ public class mainCommander implements TabExecutor {
                 (10 - 1 - player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, 0) + 1) +
                 "§a次,你距离下个五星保底为:§6" +
                 (90 - 1 - player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, 0) + 1) +
-                "§a次,你下次紫色是否是保底:§d" +
+                "§a次,你下次紫色是否是up:§d" +
                 player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListPurple"), PersistentDataType.BOOLEAN, false) +
-                "§a你下个五星是否是保底:§6" +
+                "§a你下个五星是否是up:§6" +
                 player.getPersistentDataContainer().getOrDefault(new NamespacedKey(javaPlugin, "isListGolden"), PersistentDataType.BOOLEAN, false));
     }
 

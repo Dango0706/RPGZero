@@ -68,11 +68,12 @@ public class JavaItems {
         RECIPE_BOOK = new ItemStack(Material.KNOWLEDGE_BOOK);
         KnowledgeBookMeta knowledgeBookMeta = (KnowledgeBookMeta) RECIPE_BOOK.getItemMeta();
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM"));
-        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "ETERNIAS_GAZE"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "REFRESHING_GLORY"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "RESTORATIVE_EMBER"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "GUI_MENU"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT_1"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT_2"));
         RECIPE_BOOK.setItemMeta(knowledgeBookMeta);
 
         //灵魂之晶 15210000

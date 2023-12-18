@@ -54,13 +54,13 @@ public class ItemAttributeUpdate implements Listener {
                 if (nbtGetString(itemMeta, "Rarity").equals(Rarity.SINGULAR.name())) {
                     maxLevel = 20;
                 } else if (nbtGetString(itemMeta, "Rarity").equals(Rarity.EXQUISITE.name())) {
-                    maxLevel = 25;
+                    maxLevel = 20;
                 } else if (nbtGetString(itemMeta, "Rarity").equals(Rarity.MYTHIC.name())) {
-                    maxLevel = 35;
+                    maxLevel = 25;
                 } else if (nbtGetString(itemMeta, "Rarity").equals(Rarity.MAJESTIC.name())) {
-                    maxLevel = 55;
+                    maxLevel = 30;
                 } else {
-                    maxLevel = 100;
+                    maxLevel = 40;
                 }
                 //是否到达下一级
                 if (getNextLevelExp(level + 1) <= exp && level + 1 <= maxLevel) {
