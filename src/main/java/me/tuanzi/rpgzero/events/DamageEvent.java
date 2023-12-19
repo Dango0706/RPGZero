@@ -1,7 +1,6 @@
 package me.tuanzi.rpgzero.events;
 
 import me.tuanzi.rpgzero.utils.DamageType;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -28,10 +27,6 @@ public class DamageEvent implements Listener {
                 return;
             if (victim instanceof Player p && !playerConfig.getBoolean(p.getDisplayName().toLowerCase() + ".isNewDamageCalculate", true))
                 return;
-
-            if(attacker instanceof Player player){
-                player.setCooldown(Material.NETHERITE_SWORD,200);
-            }
             logger.log(Level.FINE,"####################");
             logger.log(Level.FINE,"原最终伤害:" + event.getFinalDamage());
             //盔甲伤害减免设置为0
@@ -68,7 +63,6 @@ public class DamageEvent implements Listener {
             ) {
                 damageType = PENETRATION;
             }
-
             event.setDamage(EntityDamageEvent.DamageModifier.BASE, damageCalculation(attacker, victim, event.getDamage(), damageType));
         }
 

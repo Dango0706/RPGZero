@@ -3,6 +3,7 @@ package me.tuanzi.rpgzero;
 import me.tuanzi.rpgzero.command.mainCommander;
 import me.tuanzi.rpgzero.events.*;
 import me.tuanzi.rpgzero.gui.ChestGUI;
+import me.tuanzi.rpgzero.test.TestEvent;
 import me.tuanzi.rpgzero.utils.Initialize;
 import me.tuanzi.rpgzero.utils.Recipe;
 import org.bukkit.Bukkit;
@@ -32,6 +33,7 @@ public final class RPGZero extends JavaPlugin {
     public static GeyserApi geyserApi;
     public static FloodgateApi floodgateApi;
 
+    public static boolean debug = false;
     /*
      * customModel:15210000~15219999
      *
@@ -41,6 +43,8 @@ public final class RPGZero extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         javaPlugin = this;
+        //启用debug?
+        debug = getConfig().getBoolean("debug");
         //检测有无Geyser
         if (Bukkit.getPluginManager().getPlugin("Geyser-Spigot") != null && Bukkit.getPluginManager().getPlugin("Geyser-Spigot").isEnabled()) {
             hasGeyser = true;
@@ -61,8 +65,8 @@ public final class RPGZero extends JavaPlugin {
         //初始化
         new Initialize();
         savePlayerConfig();
-        //debug相关
-        if (getConfig().getBoolean("debug")) {
+        //log相关
+        if (getConfig().getBoolean("log")) {
             getLogger().setLevel(Level.ALL);
             FileHandler fileHandler;
             //创建文件夹
@@ -91,6 +95,8 @@ public final class RPGZero extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new dropFragment(), this);
         Bukkit.getPluginManager().registerEvents(new EntitySpawnEvents(), this);
         Bukkit.getPluginManager().registerEvents(new ChestGUI(), this);
+        if(debug)
+            Bukkit.getPluginManager().registerEvents(new TestEvent(), this);
         //recipe
         new Recipe();
         //command
@@ -98,7 +104,6 @@ public final class RPGZero extends JavaPlugin {
             Bukkit.getPluginCommand("rpg").setExecutor(new mainCommander());
         }
         Objects.requireNonNull(Bukkit.getPluginCommand("rpg")).setTabCompleter(new mainCommander());
-
         logger.info("RPGZero已加载!");
     }
 

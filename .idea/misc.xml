@@ -10,6 +10,9 @@
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$USER_HOME$/AppData/Local/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/development_resource_packs/RPGZeroBedrockResourcePack" />
+    <file type="web" url="file://$PROJECT_DIR$/../../game/Minecraft/MinecraftModpack/.minecraft/versions/fab1.20.2/resourcepacks/SakuraServer" />
+    <file type="web" url="file://$PROJECT_DIR$/../../game/MinecraftServer/Servers/PluginTestServer/plugins/Geyser-Spigot/custom_mappings" />
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">

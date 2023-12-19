@@ -2,3 +2,5 @@
 debug: false
 #是否取消抽卡机制
 cancel_draw: false
+#log设置
+log: true

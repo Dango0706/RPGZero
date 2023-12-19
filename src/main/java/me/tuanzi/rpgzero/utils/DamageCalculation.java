@@ -6,6 +6,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -140,8 +141,14 @@ public class DamageCalculation {
         }
 
         logger.log(Level.FINE, "计算抗性后最终伤害:" + amount);
+        if (victim.hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) {
+            int level = victim.getPotionEffect(PotionEffectType.DAMAGE_RESISTANCE).getAmplifier() + 1;
+            logger.log(Level.FINE, "有抗性药水!等级为:" + level);
+            amount *= (1 - 0.25 * level);
+        }
+        logger.log(Level.FINE, "计算完药水效果后,最终伤害为:" + Math.max(amount, 0));
         logger.log(Level.FINE, "####################");
-        return amount;
+        return Math.max(amount, 0);
     }
 
     //伤害计算防御力后.
