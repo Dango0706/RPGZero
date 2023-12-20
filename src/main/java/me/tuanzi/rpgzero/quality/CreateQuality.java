@@ -30,7 +30,9 @@ public class CreateQuality {
             quality = drawQuality("TOOL");
             //弓
         } else if (itemName.contains("BOW")) {
-            quality = drawQuality("BOW");
+            //暂时没做
+//            quality = drawQuality("BOW");
+            return itemStack;
             //盔甲
         } else if (itemName.contains("HELMET") || itemName.contains("CHESTPLATE") || itemName.contains("LEGGINGS") || itemName.contains("BOOTS")) {
             quality = drawQuality("ARMOR");

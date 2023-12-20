@@ -17,6 +17,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.Random;
 import java.util.logging.Level;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
@@ -193,7 +194,7 @@ public class ChestGUI implements Listener {
     }
 
     public static Inventory getOtherWishItemGui(Player player){
-        otherWishItemGui = createEasyInventory(new GUIHolder(Bukkit.getPlayer("Xiao_Gao")), 6, "§b其余物品一览", new ItemStack(Material.AIR));
+        otherWishItemGui = createEasyInventory(new GUIHolder(player), 6, "§b其余物品一览", new ItemStack(Material.AIR));
         ItemStack itemStack;
         itemStack = DISPLAY_TIP.clone();
         removeItemStackLore(itemStack);
@@ -282,11 +283,11 @@ public class ChestGUI implements Listener {
                         player.closeInventory();
                     }
                     //disintegration
-                    if(e.getRawSlot() == 21){
+                    if (e.getRawSlot() == 21) {
                         player.openInventory(getDisintegrationGui(player));
                     }
                     //refresh
-                    if(e.getRawSlot() == 23){
+                    if (e.getRawSlot() == 23) {
                         Bukkit.dispatchCommand(player, "r refresh");
                         player.closeInventory();
                     }
@@ -295,8 +296,9 @@ public class ChestGUI implements Listener {
                         player.openInventory(getForgeGui(player));
                     }
                     //help_book
-                    if (e.getRawSlot() == 31)
+                    if (e.getRawSlot() == 31) {
                         player.getInventory().addItem(HELP_BOOK);
+                    }
                     //setting
                     if (e.getRawSlot() == 37) {
                         player.openInventory(getSettingGui(player));
@@ -395,6 +397,7 @@ public class ChestGUI implements Listener {
                                     ItemStack itemStack1 = inventory.getItem(a + j);
                                     if (itemStack1 != null) {
                                         if (itemStack1.hasItemMeta() && itemStack1.getItemMeta().hasCustomModelData()) {
+                                            //蓝色
                                             if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.MYTHIC.name())) {
                                                 //等级 * 2
                                                 int level = nbtGetInteger(itemStack1.getItemMeta(), "AttributeLevel");
@@ -406,6 +409,7 @@ public class ChestGUI implements Listener {
                                                     continue;
                                                 }
                                                 inventory.setItem(a + j, null);
+                                                //紫色
                                             } else if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.MAJESTIC.name())) {
                                                 //基础4 每多一级+2
                                                 int level = nbtGetInteger(itemStack1.getItemMeta(), "AttributeLevel");
@@ -419,6 +423,10 @@ public class ChestGUI implements Listener {
                                                 //up额外+4
                                                 if (nbtGetBoolean(itemStack1.getItemMeta(), "IsUP")) {
                                                     mythicCount += 4;
+                                                    //15%概率额外获得一个复原精华
+                                                    if (new Random().nextDouble() <= 0.15) {
+                                                        supremeCount += 1;
+                                                    }
                                                 }
                                                 inventory.setItem(a + j, null);
                                             } else if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.SUPREME.name())) {
@@ -479,8 +487,7 @@ public class ChestGUI implements Listener {
                             || e.getRawSlot() == 16
                     )
                         e.setCancelled(true);
-                    ItemStack weapon = inventory.getItem(11);
-                    ItemStack refresh = inventory.getItem(13);
+
                     //back to home
                     if (e.getRawSlot() == 18 || e.getRawSlot() == 8) {
                         player.openInventory(getMainGui(player));
@@ -492,6 +499,14 @@ public class ChestGUI implements Listener {
                     }
                     //go
                     if (e.getRawSlot() == 26) {
+                        //如果不是绿宝石(失败)或屏障 则返还物品,设置为屏障.
+                        String material = inventory.getItem(15).getType().name();
+                        if (!material.equals(Material.EMERALD.name()) && !material.equals(Material.BARRIER.name())) {
+                            inventory.setItem(11, inventory.getItem(15));
+                            inventory.setItem(15, new ItemStack(Material.BARRIER));
+                        }
+                        ItemStack weapon = inventory.getItem(11);
+                        ItemStack refresh = inventory.getItem(13);
                         int weaponLevel;
                         int refreshLevel;
                         ItemStack failed = DISPLAY_DISABLE.clone();

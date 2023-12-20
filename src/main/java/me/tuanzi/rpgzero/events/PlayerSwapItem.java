@@ -23,6 +23,7 @@ import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetString;
 
 public class PlayerSwapItem implements Listener {
     //PlayerSwapHandItemsEvent 按f触发
+    //攻速,移速等设置
     @EventHandler
     public void aVoid(PlayerItemHeldEvent event) {
         //Quality加减攻速
@@ -67,6 +68,8 @@ public class PlayerSwapItem implements Listener {
                 }
             }
         }
+        //todo:增强attackSpeed
+//        attackSpeed *= 4;
         attackSpeedAttribute.addModifier(new AttributeModifier(UUID.fromString("f2eae622-eb37-4dd5-b4d7-5a07aa0a9c3f"), "QualityAddAttackSpeed", attackSpeed, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
         moveSpeed.addModifier(new AttributeModifier(UUID.fromString("c6b7f1ce-90a9-4d47-97bc-2e4778dc6c56"), "QualityAddMovementSpeed", speed, AttributeModifier.Operation.MULTIPLY_SCALAR_1));
 
