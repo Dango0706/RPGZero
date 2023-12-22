@@ -9,12 +9,15 @@ public class test {
         System.out.println("防御力:"+def);
         System.out.println("计算后伤害:"+ damage / (1 + 1.5 * Math.log(1 + 0.01 * def)));
 
-        int goldenCount = 80;
+        int goldenCount = 82;
         double goldenRank = 0.6;
         if (goldenCount >= 60) {
-            goldenRank += (goldenCount - 60) * 2;
+            goldenRank += (goldenCount - 60) * 0.5;
             if (goldenCount >= 70) {
-                goldenRank += (goldenCount - 70) * 0.75;
+                goldenRank += (goldenCount - 70) * 4;
+                if(goldenCount>=77 && goldenCount<=82){
+                    goldenRank += (goldenCount - 77) * 7;
+                }
             }
         }
         System.out.println(goldenRank);
