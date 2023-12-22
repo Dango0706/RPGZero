@@ -99,9 +99,9 @@ public class DrawItems {
             } else {
                 double goldenRank = 0.6;
                 if (goldenCount >= 60) {
-                    goldenRank += (goldenCount - 60) * 0.02;
+                    goldenRank += (goldenCount - 60) * 2;
                     if (goldenCount >= 70) {
-                        goldenRank += (goldenCount - 70) * 0.075;
+                        goldenRank += (goldenCount - 70) * 0.75;
                     }
                 }
                 //不是金也不是紫保底
