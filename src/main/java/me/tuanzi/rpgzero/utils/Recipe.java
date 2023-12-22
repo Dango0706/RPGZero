@@ -15,10 +15,17 @@ public class Recipe {
     public Recipe() {
         //有序合成
         //灵魂之晶
-        ShapedRecipe shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM"), SOUL_GEM);
+        ShapedRecipe shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM_1"), SOUL_GEM);
         shapedRecipe = shapedRecipe.shape("aba","dcd","aba");
         shapedRecipe = shapedRecipe.setIngredient('a',Material.EMERALD_BLOCK)
                 .setIngredient('b',Material.DIAMOND_BLOCK)
+                .setIngredient('c',new RecipeChoice.ExactChoice(SPECTRAL_FRAGMENT))
+                .setIngredient('d',Material.RAW_GOLD);
+        Bukkit.addRecipe(shapedRecipe);
+        shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM_2"), SOUL_GEM);
+        shapedRecipe = shapedRecipe.shape("aba","dcd","aba");
+        shapedRecipe = shapedRecipe.setIngredient('a',Material.EMERALD_BLOCK)
+                .setIngredient('b',new RecipeChoice.ExactChoice(SPIRITUAL_STONE))
                 .setIngredient('c',new RecipeChoice.ExactChoice(SPECTRAL_FRAGMENT))
                 .setIngredient('d',Material.RAW_GOLD);
         Bukkit.addRecipe(shapedRecipe);
@@ -71,6 +78,16 @@ public class Recipe {
                 .addIngredient(Material.RAW_GOLD)
                 .addIngredient(Material.PUFFERFISH)
                 .addIngredient(Material.PHANTOM_MEMBRANE);
+        Bukkit.addRecipe(shapelessRecipe);
+        //灵石
+        shapelessRecipe = new ShapelessRecipe(new NamespacedKey(javaPlugin,"SPIRITUAL_STONE"),SPIRITUAL_STONE);
+        shapelessRecipe = shapelessRecipe.addIngredient(Material.DIAMOND)
+                .addIngredient(Material.DIAMOND)
+                .addIngredient(Material.DIAMOND)
+                .addIngredient(Material.COPPER_BLOCK)
+                .addIngredient(Material.COPPER_BLOCK)
+                .addIngredient(Material.QUARTZ_BLOCK)
+                .addIngredient(Material.QUARTZ_BLOCK);
         Bukkit.addRecipe(shapelessRecipe);
 
 

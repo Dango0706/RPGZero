@@ -46,6 +46,8 @@ public class JavaItems {
     public static final ItemStack DISPLAY_REFRESH ;
     public static final ItemStack DISPLAY_WISH ;
 
+    public static final ItemStack SPIRITUAL_STONE ;
+
     static {
         //不需要自定义模型
         //菜单
@@ -67,13 +69,15 @@ public class JavaItems {
         //合成表
         RECIPE_BOOK = new ItemStack(Material.KNOWLEDGE_BOOK);
         KnowledgeBookMeta knowledgeBookMeta = (KnowledgeBookMeta) RECIPE_BOOK.getItemMeta();
-        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM_1"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SOUL_GEM_2"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "ETERNIAS_GAZE"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "REFRESHING_GLORY"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "RESTORATIVE_EMBER"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "GUI_MENU"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT_1"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT_2"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPIRITUAL_STONE"));
         RECIPE_BOOK.setItemMeta(knowledgeBookMeta);
 
         //灵魂之晶 15210000
@@ -125,6 +129,13 @@ public class JavaItems {
                 , "§7它可以通过注入物品中"
                 , "§7使其焕发出崭新的光芒"
                 , "§8获取方式:分解台"
+        );
+        //灵石 0007
+        SPIRITUAL_STONE = createMiscItemStack(Material.EMERALD, Rarity.EXQUISITE, 15210007, 1, "§a灵石",
+                "§7「灵石」是一种珍贵的合成物品"
+                , "§7由金属和水晶构成，"
+                , "§7能发挥出各自的优势"
+                , "§7是一种多用途的物品"
         );
         //装饰用 15219000开头
         DISPLAY_CONFIG = createDisplayItemStack(Material.EMERALD, 15219000, "§b设置", (String) null);

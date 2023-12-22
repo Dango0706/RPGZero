@@ -28,10 +28,10 @@ public class DrawPools {
     static final ItemStack SEAHEART_BLADE = createSwordItemStack(Rarity.MYTHIC, ItemType.SWORD, true, true, 15211007, 8.5, 1.6, "碧海剑心", List.of("§7蕴含大海力量的剑，能够召唤汹涌的海浪攻击敌人。"));
     static final ItemStack THORNBLADE = createSwordItemStack(Rarity.MYTHIC, ItemType.SWORD, true, true, 15211008, 8.5, 1.6, "荆棘之刃", List.of("§7带有尖锐荆棘的剑，每一次攻击都能够让敌人感受到剧痛。"));
     //其他奖励
-    static final ItemStack BLUE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND, Rarity.MYTHIC, 0, 15, null, (String) null);
-    static final ItemStack BLUE_SOME_EMERALD = createMiscItemStack(Material.EMERALD, Rarity.MYTHIC, 0, 15, null, (String) null);
-    static final ItemStack BLUE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_INGOT, Rarity.MYTHIC, 0, 32, null, (String) null);
-    static final ItemStack BLUE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MYTHIC, 0, 32, null, (String) null);
+    static final ItemStack BLUE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND_BLOCK, Rarity.MYTHIC, 0, 5, null, (String) null);
+    static final ItemStack BLUE_SOME_EMERALD = createMiscItemStack(Material.EMERALD_BLOCK, Rarity.MYTHIC, 0, 8, null, (String) null);
+    static final ItemStack BLUE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_BLOCK, Rarity.MYTHIC, 0, 10, null, (String) null);
+//    static final ItemStack BLUE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MYTHIC, 0, 32, null, (String) null);
     static final ItemStack BLUE_SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MYTHIC, 0, 8, null, (String) null);
 
     //紫色
@@ -47,11 +47,11 @@ public class DrawPools {
     //其他奖励
 //    static final ItemStack SOME_SOUL_GEM = setItemStackCount(SOUL_GEM, 2);
     static final ItemStack SOME_SPECTRAL_FRAGMENT = setItemStackCount(SPECTRAL_FRAGMENT, 5);
-    static final ItemStack PURPLE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND, Rarity.MAJESTIC, 0, 32, null, (String) null);
-    static final ItemStack PURPLE_SOME_EMERALD = createMiscItemStack(Material.EMERALD, Rarity.MAJESTIC, 0, 32, null, (String) null);
-    static final ItemStack PURPLE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_INGOT, Rarity.MAJESTIC, 0, 64, null, (String) null);
-    static final ItemStack PURPLE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MAJESTIC, 0, 64, null, (String) null);
-    static final ItemStack PURPLE_SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MAJESTIC, 0, 16, null, (String) null);
+    static final ItemStack PURPLE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND_BLOCK, Rarity.MAJESTIC, 0, 15, null, (String) null);
+    static final ItemStack PURPLE_SOME_EMERALD = createMiscItemStack(Material.EMERALD_BLOCK, Rarity.MAJESTIC, 0, 20, null, (String) null);
+    static final ItemStack PURPLE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_BLOCK, Rarity.MAJESTIC, 0, 24, null, (String) null);
+//    static final ItemStack PURPLE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MAJESTIC, 0, 64, null, (String) null);
+    static final ItemStack PURPLE_SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MAJESTIC, 0, 32, null, (String) null);
     static final ItemStack PURPLE_SOME_ENCHANTED_GOLDEN_APPLE = createMiscItemStack(Material.ENCHANTED_GOLDEN_APPLE, Rarity.MAJESTIC, 0, 8, null, (String) null);
 
     
