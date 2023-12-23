@@ -50,6 +50,12 @@ public class Recipe {
                 .setIngredient('b',Material.NETHERITE_INGOT)
                 .setIngredient('c',new RecipeChoice.ExactChoice(ESSENCE_OF_RESTORATION));
         Bukkit.addRecipe(shapedRecipe);
+        //绿宝石苹果
+        shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "EMERALD_APPLE"), EMERALD_APPLE);
+        shapedRecipe = shapedRecipe.shape("aaa","aba","aaa");
+        shapedRecipe = shapedRecipe.setIngredient('a',Material.EMERALD)
+                .setIngredient('b',Material.APPLE);
+        Bukkit.addRecipe(shapedRecipe);
         //无序合成
         //gui菜单
         ShapelessRecipe shapelessRecipe = new ShapelessRecipe(new NamespacedKey(javaPlugin, "GUI_MENU"), GUI_MENU);

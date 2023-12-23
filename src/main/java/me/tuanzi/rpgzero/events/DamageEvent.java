@@ -63,7 +63,17 @@ public class DamageEvent implements Listener {
             ) {
                 damageType = PENETRATION;
             }
-            event.setDamage(EntityDamageEvent.DamageModifier.BASE, damageCalculation(attacker, victim, event.getDamage(), damageType));
+            //最终伤害
+            double damage = damageCalculation(attacker, victim, event.getDamage(), damageType);
+            //荆棘多于4的只触发20%.
+            if (event.getCause() == EntityDamageEvent.DamageCause.THORNS) {
+                if (damage > 4) {
+                    damage = (damage - 4) * 0.2 + 4;
+                }
+                event.setDamage(EntityDamageEvent.DamageModifier.BASE, damage);
+            } else {
+                event.setDamage(EntityDamageEvent.DamageModifier.BASE, damage);
+            }
         }
 
     }

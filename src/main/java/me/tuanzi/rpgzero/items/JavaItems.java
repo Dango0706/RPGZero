@@ -10,14 +10,12 @@ import org.bukkit.inventory.meta.KnowledgeBookMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
-import static me.tuanzi.rpgzero.draw.CreateItemStack.createDisplayItemStack;
-import static me.tuanzi.rpgzero.draw.CreateItemStack.createMiscItemStack;
+import static me.tuanzi.rpgzero.draw.CreateItemStack.*;
 
 public class JavaItems {
     public static final ItemStack GUI_MENU;
     public static final ItemStack HELP_BOOK;
     public static final ItemStack RECIPE_BOOK;
-
 
 
     //has custom model
@@ -28,6 +26,8 @@ public class JavaItems {
     public static final ItemStack RESTORATIVE_EMBER;
     public static final ItemStack SOUL_OF_SMELTING;
     public static final ItemStack ESSENCE_OF_RESTORATION;
+    public static final ItemStack SPIRITUAL_STONE;
+    public static final ItemStack EMERALD_APPLE;
 
 
     //display
@@ -46,7 +46,7 @@ public class JavaItems {
     public static final ItemStack DISPLAY_REFRESH ;
     public static final ItemStack DISPLAY_WISH ;
 
-    public static final ItemStack SPIRITUAL_STONE ;
+
 
     static {
         //不需要自定义模型
@@ -78,8 +78,10 @@ public class JavaItems {
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT_1"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPECTRAL_FRAGMENT_2"));
         knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "SPIRITUAL_STONE"));
+        knowledgeBookMeta.addRecipe(new NamespacedKey(javaPlugin, "EMERALD_APPLE"));
         RECIPE_BOOK.setItemMeta(knowledgeBookMeta);
 
+        //自定义模型
         //灵魂之晶 15210000
         SOUL_GEM = createMiscItemStack(Material.EMERALD, Rarity.SUPREME, 15210000, 1, "§6灵魂之晶", "§7蕴含无尽智慧，触摸心灵深处。",
                 "§7对着摆放在特定位置的信标前使用,",
@@ -136,6 +138,10 @@ public class JavaItems {
                 , "§7由金属和水晶构成，"
                 , "§7能发挥出各自的优势"
                 , "§7是一种多用途的物品"
+        );
+        //绿宝石苹果 0008
+        EMERALD_APPLE = createFoodItemStack(Material.GOLDEN_APPLE, Rarity.EXQUISITE, 15210008, 1, 4, 10f, "§a绿宝石苹果",
+                (String) null
         );
         //装饰用 15219000开头
         DISPLAY_CONFIG = createDisplayItemStack(Material.EMERALD, 15219000, "§b设置", (String) null);

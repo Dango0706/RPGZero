@@ -234,6 +234,12 @@ public class ChestGUI implements Listener {
         if (inventoryView.getTitle().equals("§d锻造")) {
             ItemStack weapon = inventory.getItem(11);
             ItemStack refresh = inventory.getItem(13);
+            ItemStack result = inventory.getItem(15);
+            //15是武器的话取出
+            String material = result.getType().name();
+            if (!material.equals(Material.EMERALD.name()) && !material.equals(Material.BARRIER.name())) {
+                player.getInventory().addItem(result);
+            }
             if (weapon != null) {
                 player.getInventory().addItem(weapon);
                 inventory.setItem(11, null);
@@ -412,6 +418,8 @@ public class ChestGUI implements Listener {
                                                 //紫色
                                             } else if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.MAJESTIC.name())) {
                                                 //基础4 每多一级+2
+                                                //基础概率15%.
+                                                double supremeRank = 0.15;
                                                 int level = nbtGetInteger(itemStack1.getItemMeta(), "AttributeLevel");
                                                 if (level > 0) {
                                                     mythicCount += (level - 1) * 2 + 4;
@@ -423,10 +431,11 @@ public class ChestGUI implements Listener {
                                                 //up额外+4
                                                 if (nbtGetBoolean(itemStack1.getItemMeta(), "IsUP")) {
                                                     mythicCount += 4;
-                                                    //15%概率额外获得一个复原精华
-                                                    if (new Random().nextDouble() <= 0.15) {
-                                                        supremeCount += 1;
-                                                    }
+                                                    //额外增加5%概率额外获得一个复原精华
+                                                    supremeRank += 0.05;
+                                                }
+                                                if (new Random().nextDouble() <= supremeRank) {
+                                                    supremeCount += 1;
                                                 }
                                                 inventory.setItem(a + j, null);
                                             } else if (nbtGetString(itemStack1.getItemMeta(), "Rarity").equals(Rarity.SUPREME.name())) {

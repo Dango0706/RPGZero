@@ -42,6 +42,43 @@ public class CreateItemStack {
         return itemStack;
     }
 
+    public static ItemStack createFoodItemStack(Material material, Rarity rarity, Integer customModel, Integer count, Integer foodLevel, float saturation, String name, List<String> description) {
+        ItemStack itemStack = new ItemStack(material);
+        if (count > 0)
+            itemStack.setAmount(count);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            //设置nbt
+            //稀有度
+            nbtSetString(itemMeta, "Rarity", rarity.name());
+            //是新的吗?
+            nbtSetBoolean(itemMeta, "isNew", true);
+            //设置饱食度与饱和度
+            nbtSetInteger(itemMeta, "FoodLevel", foodLevel);
+            nbtSetFloat(itemMeta, "Saturation", saturation);
+            //设置名字
+            if (name != null)
+                itemMeta.setDisplayName(rarity.getColor() + name);
+            if (customModel != 0)
+                itemMeta.setCustomModelData(customModel);
+            //设置Lore
+            List<String> lore = itemMeta.getLore();
+            if (lore == null) {
+                lore = new ArrayList<>();
+            }
+            if (description != null)
+                lore.addAll(description);
+            //将lore还给Item
+            itemMeta.setLore(lore);
+        }
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public static ItemStack createFoodItemStack(Material material, Rarity rarity, Integer customModel, Integer count, Integer foodLevel, float saturation, String name, String... description) {
+        return createFoodItemStack(material, rarity, customModel, count, foodLevel, saturation, name, Arrays.asList(description));
+    }
+
     public static ItemStack createMiscItemStack(Material material, Rarity rarity, Integer customModel, Integer count, String name, String... description) {
         return createMiscItemStack(material, rarity, customModel, count, name, Arrays.asList(description));
     }
@@ -72,9 +109,7 @@ public class CreateItemStack {
                 lore.addAll(description);
             //将lore还给Item
             itemMeta.setLore(lore);
-            itemStack.setItemMeta(itemMeta);
         }
-
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

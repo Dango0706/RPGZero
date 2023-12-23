@@ -55,6 +55,10 @@ public class PersistentDataContainerUtils {
         itemMeta.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, Key), PersistentDataType.BOOLEAN, value);
     }
 
+    public static void nbtSetFloat(ItemMeta itemMeta, String Key, float value) {
+        itemMeta.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, Key), PersistentDataType.FLOAT, value);
+    }
+
     /**
      * 获取物品的自定义nbt,类型为String
      *
@@ -89,6 +93,18 @@ public class PersistentDataContainerUtils {
         a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.INTEGER);
         if (a == null) {
             return 0;
+        }
+        return a;
+    }
+
+    public static Float nbtGetFloat(ItemMeta itemMeta, String Key) {
+        if (itemMeta == null) {
+            return 0f;
+        }
+        Float a;
+        a = itemMeta.getPersistentDataContainer().get(new NamespacedKey(javaPlugin, Key), PersistentDataType.FLOAT);
+        if (a == null) {
+            return 0f;
         }
         return a;
     }
