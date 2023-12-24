@@ -85,7 +85,7 @@ public class DrawItems {
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "GoldenDrawCount"), PersistentDataType.INTEGER, goldenCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "PurpleDrawCount"), PersistentDataType.INTEGER, purpleCount);
         player.getPersistentDataContainer().set(new NamespacedKey(javaPlugin, "TotalDrawCount"), PersistentDataType.INTEGER, totalCount);
-        if(playerConfig.getBoolean(player.getName().toLowerCase()+".isDrawCountToast",true))
+        if (playerConfig.getBoolean(player.getName().toLowerCase() + ".isDrawCountToast", true))
             sendPlayerDrawCount(player);
         //保底计算
         if (goldenCount >= 90) {
@@ -157,8 +157,8 @@ public class DrawItems {
                 itemStack = allPurple.get(ran);
             }
         }
-       itemStack = refreshQuality(itemStack);
-      itemStack=  refreshAttributes(itemStack);
+        itemStack = refreshQuality(itemStack);
+        itemStack = refreshAttributes(itemStack);
 
         return itemStack;
     }
@@ -275,7 +275,6 @@ public class DrawItems {
             world.spawnParticle(Particle.REDSTONE, x, y, z, count, offsetX, offsetY, offsetZ, dustOptions);
         }
     }
-
 
 
 }

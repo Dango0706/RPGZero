@@ -45,10 +45,11 @@ public class Recipe {
         Bukkit.addRecipe(shapedRecipe);
         //回春余烬
         shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "RESTORATIVE_EMBER"), RESTORATIVE_EMBER);
-        shapedRecipe = shapedRecipe.shape("aaa","ccc","bbb");
-        shapedRecipe = shapedRecipe.setIngredient('a',Material.DIAMOND)
-                .setIngredient('b',Material.NETHERITE_INGOT)
-                .setIngredient('c',new RecipeChoice.ExactChoice(ESSENCE_OF_RESTORATION));
+        shapedRecipe = shapedRecipe.shape("aaa", "ccc", "dbd");
+        shapedRecipe = shapedRecipe.setIngredient('a', Material.DIAMOND)
+                .setIngredient('b', Material.NETHERITE_INGOT)
+                .setIngredient('d', Material.NETHERITE_SCRAP)
+                .setIngredient('c', new RecipeChoice.ExactChoice(ESSENCE_OF_RESTORATION));
         Bukkit.addRecipe(shapedRecipe);
         //绿宝石苹果
         shapedRecipe = new ShapedRecipe(new NamespacedKey(javaPlugin, "EMERALD_APPLE"), EMERALD_APPLE);

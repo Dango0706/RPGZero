@@ -5,7 +5,9 @@ import me.tuanzi.rpgzero.gui.ChestGUI;
 
 public class Initialize {
     public Initialize() {
+        //抽卡
         new DrawItems();
+        //GUI
         new ChestGUI();
 
 

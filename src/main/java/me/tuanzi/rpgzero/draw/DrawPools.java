@@ -5,7 +5,8 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-import static me.tuanzi.rpgzero.draw.CreateItemStack.*;
+import static me.tuanzi.rpgzero.draw.CreateItemStack.createMiscItemStack;
+import static me.tuanzi.rpgzero.draw.CreateItemStack.createSwordItemStack;
 import static me.tuanzi.rpgzero.items.JavaItems.SPECTRAL_FRAGMENT;
 import static me.tuanzi.rpgzero.utils.ItemStackUtils.setItemStackCount;
 
@@ -44,17 +45,22 @@ public class DrawPools {
     static final ItemStack FROST_SHADOW_BLADE = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212003, 9.25, 1.6, "霜寒冥刀", List.of("§7蕴含冰霜与黑暗力量的刀，能够冻结敌人的血液。"));
     static final ItemStack HOLY_LIGHT_JUDGMENT_SWORD = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212001, 9.25, 1.6, "圣光审判剑", List.of("§7由圣光赋予的神圣剑，能够驱散黑暗与邪恶。"));
     static final ItemStack ENDLESS_SHADOW_BLADE = createSwordItemStack(Rarity.MAJESTIC, ItemType.SWORD, false, false, 15212005, 9.25, 1.6, "无尽黯影", List.of("§7蕴含无尽黑暗力量的剑，能够吞噬一切光明。"));
+    static final ItemStack TIME_SLICER = createMiscItemStack(Material.DIAMOND_PICKAXE, Rarity.MAJESTIC, false, false, 15212006, 1, "时光切割",
+            "§7镐尖流光溢彩，仿佛能够切割时光，快速开采矿藏。",
+            "§8请慎重升级下界合金镐",
+            "§8蹲下进行连锁挖矿."
+    );
     //其他奖励
 //    static final ItemStack SOME_SOUL_GEM = setItemStackCount(SOUL_GEM, 2);
     static final ItemStack SOME_SPECTRAL_FRAGMENT = setItemStackCount(SPECTRAL_FRAGMENT, 5);
     static final ItemStack PURPLE_SOME_DIAMOND = createMiscItemStack(Material.DIAMOND_BLOCK, Rarity.MAJESTIC, 0, 15, null, (String) null);
     static final ItemStack PURPLE_SOME_EMERALD = createMiscItemStack(Material.EMERALD_BLOCK, Rarity.MAJESTIC, 0, 20, null, (String) null);
     static final ItemStack PURPLE_SOME_GOLD_INGOT = createMiscItemStack(Material.GOLD_BLOCK, Rarity.MAJESTIC, 0, 24, null, (String) null);
-//    static final ItemStack PURPLE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MAJESTIC, 0, 64, null, (String) null);
+    //    static final ItemStack PURPLE_SOME_GOLDEN_CARROT = createMiscItemStack(Material.GOLDEN_CARROT, Rarity.MAJESTIC, 0, 64, null, (String) null);
     static final ItemStack PURPLE_SOME_GOLDEN_APPLE = createMiscItemStack(Material.GOLDEN_APPLE, Rarity.MAJESTIC, 0, 32, null, (String) null);
     static final ItemStack PURPLE_SOME_ENCHANTED_GOLDEN_APPLE = createMiscItemStack(Material.ENCHANTED_GOLDEN_APPLE, Rarity.MAJESTIC, 0, 8, null, (String) null);
 
-    
+
     //金色
     //up
     static final ItemStack THUNDER_WRATH = createSwordItemStack(Rarity.SUPREME, ItemType.SWORD, true, true, 15213000, 12, 1.75, "雷霆之怒", List.of("§7闪电般的破坏力，摧毁一切敌意。"));

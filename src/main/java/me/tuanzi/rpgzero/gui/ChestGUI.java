@@ -236,9 +236,11 @@ public class ChestGUI implements Listener {
             ItemStack refresh = inventory.getItem(13);
             ItemStack result = inventory.getItem(15);
             //15是武器的话取出
-            String material = result.getType().name();
-            if (!material.equals(Material.EMERALD.name()) && !material.equals(Material.BARRIER.name())) {
-                player.getInventory().addItem(result);
+            if (result != null) {
+                String material = result.getType().name();
+                if (!material.equals(Material.EMERALD.name()) && !material.equals(Material.BARRIER.name())) {
+                    player.getInventory().addItem(result);
+                }
             }
             if (weapon != null) {
                 player.getInventory().addItem(weapon);
@@ -509,9 +511,15 @@ public class ChestGUI implements Listener {
                     //go
                     if (e.getRawSlot() == 26) {
                         //如果不是绿宝石(失败)或屏障 则返还物品,设置为屏障.
-                        String material = inventory.getItem(15).getType().name();
-                        if (!material.equals(Material.EMERALD.name()) && !material.equals(Material.BARRIER.name())) {
-                            inventory.setItem(11, inventory.getItem(15));
+                        ItemStack resultSlot = inventory.getItem(15);
+                        if (resultSlot != null) {
+                            String material = resultSlot.getType().name();
+                            if (!material.equals(Material.EMERALD.name()) && !material.equals(Material.BARRIER.name())) {
+                                inventory.setItem(11, inventory.getItem(15));
+                                inventory.setItem(11, inventory.getItem(15));
+                                inventory.setItem(15, new ItemStack(Material.BARRIER));
+                            }
+                        } else {
                             inventory.setItem(15, new ItemStack(Material.BARRIER));
                         }
                         ItemStack weapon = inventory.getItem(11);

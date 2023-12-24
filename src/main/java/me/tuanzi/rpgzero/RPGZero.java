@@ -3,6 +3,7 @@ package me.tuanzi.rpgzero;
 import me.tuanzi.rpgzero.command.mainCommander;
 import me.tuanzi.rpgzero.events.*;
 import me.tuanzi.rpgzero.gui.ChestGUI;
+import me.tuanzi.rpgzero.skills.ItemSkills;
 import me.tuanzi.rpgzero.test.TestEvent;
 import me.tuanzi.rpgzero.utils.Initialize;
 import me.tuanzi.rpgzero.utils.Recipe;
@@ -96,8 +97,10 @@ public final class RPGZero extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new EntitySpawnEvents(), this);
         Bukkit.getPluginManager().registerEvents(new ChestGUI(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerEatFoodEvent(), this);
-        if(debug)
+        Bukkit.getPluginManager().registerEvents(new ItemSkills(), this);
+        if(debug){
             Bukkit.getPluginManager().registerEvents(new TestEvent(), this);
+        }
         //recipe
         new Recipe();
         //command

@@ -83,6 +83,33 @@ public class CreateItemStack {
         return createMiscItemStack(material, rarity, customModel, count, name, Arrays.asList(description));
     }
 
+    public static ItemStack createMiscItemStack(Material material, Rarity rarity, boolean isUP, boolean uping, Integer customModel, Integer count, String name, String... description) {
+        ItemStack itemStack = createMiscItemStack(material, rarity, customModel, count, name, (String) null);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        //是否是up
+        nbtSetBoolean(itemMeta, "IsUP", isUP);
+        //正在up?
+        nbtSetBoolean(itemMeta, "Uping", uping);
+        //添加属性(词条)
+        itemStack = createItemAttributes(itemStack, false).clone();
+        //添加quality
+        itemStack = createQuality(itemStack).clone();
+
+        itemMeta = itemStack.getItemMeta();
+        //添加简介
+        List<String> lore = itemMeta.getLore();
+        if (lore == null) {
+            lore = new ArrayList<>();
+        }
+        if (description != null)
+            lore.addAll(List.of(description));
+        //将lore还给Item
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack.clone();
+    }
+
+
     public static ItemStack createMiscItemStack(Material material, Rarity rarity, Integer customModel, Integer count, String name, List<String> description) {
         ItemStack itemStack = new ItemStack(material);
         if (count > 0)
