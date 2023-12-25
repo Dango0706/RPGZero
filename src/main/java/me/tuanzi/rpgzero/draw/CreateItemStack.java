@@ -3,6 +3,7 @@ package me.tuanzi.rpgzero.draw;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +13,7 @@ import java.util.*;
 
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.createItemAttributes;
 import static me.tuanzi.rpgzero.quality.CreateQuality.createQuality;
+import static me.tuanzi.rpgzero.utils.ItemStackUtils.addItemStackLore;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.*;
 import static me.tuanzi.rpgzero.utils.utils.formatNumber;
 
@@ -19,7 +21,6 @@ import static me.tuanzi.rpgzero.utils.utils.formatNumber;
  * The type Create item stack.
  */
 public class CreateItemStack {
-
 
 
     public static ItemStack createDisplayItemStack(Material material, Integer customModel, String name, String... description) {
@@ -77,6 +78,24 @@ public class CreateItemStack {
 
     public static ItemStack createFoodItemStack(Material material, Rarity rarity, Integer customModel, Integer count, Integer foodLevel, float saturation, String name, String... description) {
         return createFoodItemStack(material, rarity, customModel, count, foodLevel, saturation, name, Arrays.asList(description));
+    }
+
+    public static ItemStack createBoundMiscItemStack(ItemStack itemStack , Player player){
+        ItemStack itemStack1 = itemStack.clone();
+        if(itemStack1.hasItemMeta()){
+            ItemMeta itemMeta = itemStack1.getItemMeta();
+            if(nbtGetString(itemMeta, "BoundPlayer").equals("Null")){
+                //设置绑定人
+                nbtSetString(itemMeta,"BoundPlayer",player.getName().toLowerCase());
+                //设置回去
+                itemStack1.setItemMeta(itemMeta);
+                //添加lore
+                addItemStackLore(itemStack1,"§8与§f"+player.getName().toLowerCase()+"§8绑定,其余人无法使用");
+            }else{
+                return itemStack;
+            }
+        }
+        return itemStack1;
     }
 
     public static ItemStack createMiscItemStack(Material material, Rarity rarity, Integer customModel, Integer count, String name, String... description) {

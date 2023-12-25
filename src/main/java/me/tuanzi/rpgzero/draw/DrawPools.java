@@ -48,7 +48,10 @@ public class DrawPools {
     static final ItemStack TIME_SLICER = createMiscItemStack(Material.DIAMOND_PICKAXE, Rarity.MAJESTIC, false, false, 15212006, 1, "时光切割",
             "§7镐尖流光溢彩，仿佛能够切割时光，快速开采矿藏。",
             "§8请慎重升级下界合金镐",
-            "§8蹲下进行连锁挖矿."
+            "§8潜行以进行连锁挖矿."
+    );
+    static final ItemStack INFINITE_FIREWORK_ROCKET = createMiscItemStack(Material.FIREWORK_ROCKET, Rarity.MAJESTIC, false, false, 15212007, 2, "无限火箭",
+            "§7无限使用的火箭!真是太帅啦!"
     );
     //其他奖励
 //    static final ItemStack SOME_SOUL_GEM = setItemStackCount(SOUL_GEM, 2);

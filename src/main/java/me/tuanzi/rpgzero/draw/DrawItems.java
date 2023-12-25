@@ -14,6 +14,7 @@ import java.util.Random;
 import static me.tuanzi.rpgzero.RPGZero.javaPlugin;
 import static me.tuanzi.rpgzero.attributes.CreateItemAttributes.refreshAttributes;
 import static me.tuanzi.rpgzero.command.mainCommander.sendPlayerDrawCount;
+import static me.tuanzi.rpgzero.draw.CreateItemStack.createBoundMiscItemStack;
 import static me.tuanzi.rpgzero.quality.CreateQuality.refreshQuality;
 import static me.tuanzi.rpgzero.utils.Config.playerConfig;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetBoolean;
@@ -122,6 +123,12 @@ public class DrawItems {
                     itemStack = allBlue.get(random.nextInt(allBlue.size()));
                     itemStack = refreshQuality(itemStack);
                     itemStack = refreshAttributes(itemStack);
+                    //有绑定关系的物品
+                    if (itemStack.getItemMeta().hasCustomModelData()) {
+                        if (itemStack.getItemMeta().getCustomModelData() == 15212007) {
+                            itemStack = createBoundMiscItemStack(itemStack, player);
+                        }
+                    }
                     //金紫都没出
                     return itemStack;
                 }
@@ -159,6 +166,12 @@ public class DrawItems {
         }
         itemStack = refreshQuality(itemStack);
         itemStack = refreshAttributes(itemStack);
+        //有绑定关系的物品
+        if (itemStack.getItemMeta().hasCustomModelData()) {
+            if (itemStack.getItemMeta().getCustomModelData() == 15212007) {
+                itemStack = createBoundMiscItemStack(itemStack, player);
+            }
+        }
 
         return itemStack;
     }
@@ -191,6 +204,12 @@ public class DrawItems {
         itemStack = refreshQuality(itemStack);
         itemStack = refreshAttributes(itemStack);
 
+        //有绑定关系的物品
+        if (itemStack.getItemMeta().hasCustomModelData()) {
+            if (itemStack.getItemMeta().getCustomModelData() == 15212007) {
+                itemStack = createBoundMiscItemStack(itemStack, player);
+            }
+        }
         return itemStack;
     }
 
@@ -225,6 +244,8 @@ public class DrawItems {
     //画圆+内部五角星
     public static void drawShape(Location location) {
         final Location loc = location.add(0.5, -0.25, 0.5);
+        //放音乐
+        location.getWorld().playSound(location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         // 获取世界对象
         World world = loc.getWorld();
         // 定义粒子的颜色和大小

@@ -13,6 +13,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -31,6 +32,7 @@ import java.util.Random;
 import static me.tuanzi.rpgzero.utils.GeyserUtils.isBedrockPlayer;
 import static me.tuanzi.rpgzero.utils.ItemStackUtils.useItems;
 import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetBoolean;
+import static me.tuanzi.rpgzero.utils.PersistentDataContainerUtils.nbtGetString;
 
 public class ItemSkills implements Listener {
 
@@ -159,10 +161,10 @@ public class ItemSkills implements Listener {
             }
         }
         // 给玩家发送一条消息，告诉他连锁挖矿的效果触发了
-        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.of(new Color(0x1FD2FF)) + "你触发了连锁挖矿的效果，一共挖掘了" + (count + 1) + "个" + material));
+        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.of(new Color(0x339933)) + "你触发了连锁挖矿的效果，一共挖掘了" + (count + 1) + "个" + material));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void rightClickSkills(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack itemStack = event.getItem();
@@ -174,6 +176,22 @@ public class ItemSkills implements Listener {
         }
         //先看是不是插件内的物品
         if (itemMeta.hasCustomModelData() && nbtGetBoolean(itemMeta, "isNew")) {
+            //无限烟花火箭
+            if (itemMeta.getCustomModelData() == 15212007) {
+                if ( player.getCooldown(Material.FIREWORK_ROCKET) <= 0)
+                    //与绑定人相同.
+                    if (nbtGetString(itemMeta, "BoundPlayer").equals(player.getName().toLowerCase())) {
+                        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                            itemStack.setAmount(3);
+                            player.setCooldown(Material.FIREWORK_ROCKET, 40);
+                        }
+                        if (itemStack.getAmount() <= 1 &&player.isGliding()) {
+                            itemStack.setAmount(itemStack.getAmount() + 1);
+                            player.setCooldown(Material.FIREWORK_ROCKET, 40);
+                        }
+                    }
+                return;
+            }
             //再看是不是基岩版玩家
             if (isBedrockPlayer(player)) {
 
@@ -196,6 +214,7 @@ public class ItemSkills implements Listener {
             }
         }
     }
+
 
     // 处理方块破坏事件的方法，实现连锁挖矿的效果
     @EventHandler

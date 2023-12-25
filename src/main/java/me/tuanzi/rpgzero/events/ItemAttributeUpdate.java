@@ -6,6 +6,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -121,14 +122,22 @@ public class ItemAttributeUpdate implements Listener {
 
     @EventHandler
     public void damage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof LivingEntity attacker && event.getEntity() instanceof LivingEntity victim) {
-            //攻击者主手
-            addExp(attacker.getEquipment().getItemInMainHand(), attacker,EquipmentSlot.HAND);
+        //被害者需要为实体
+        if (event.getEntity() instanceof LivingEntity victim) {
+            //是生物近战攻击
+            if (event.getDamager() instanceof LivingEntity attacker) {
+                //攻击者主手
+                addExp(attacker.getEquipment().getItemInMainHand(), attacker, EquipmentSlot.HAND);
+            }
+            //是生物远程攻击
+            if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof LivingEntity attacker) {
+                addExp(attacker.getEquipment().getItemInMainHand(), attacker, EquipmentSlot.HAND);
+            }
             //防御者全身
-            addExp(victim.getEquipment().getHelmet(), victim,EquipmentSlot.HEAD);
-            addExp(victim.getEquipment().getChestplate(), victim,EquipmentSlot.CHEST);
-            addExp(victim.getEquipment().getLeggings(), victim,EquipmentSlot.LEGS);
-            addExp(victim.getEquipment().getBoots(), victim,EquipmentSlot.FEET);
+            addExp(victim.getEquipment().getHelmet(), victim, EquipmentSlot.HEAD);
+            addExp(victim.getEquipment().getChestplate(), victim, EquipmentSlot.CHEST);
+            addExp(victim.getEquipment().getLeggings(), victim, EquipmentSlot.LEGS);
+            addExp(victim.getEquipment().getBoots(), victim, EquipmentSlot.FEET);
         }
     }
 
