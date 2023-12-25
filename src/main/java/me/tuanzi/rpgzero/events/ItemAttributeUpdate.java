@@ -4,6 +4,7 @@ import me.tuanzi.rpgzero.draw.Rarity;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -123,7 +124,7 @@ public class ItemAttributeUpdate implements Listener {
     @EventHandler
     public void damage(EntityDamageByEntityEvent event) {
         //被害者需要为实体
-        if (event.getEntity() instanceof LivingEntity victim) {
+        if (event.getEntity() instanceof LivingEntity victim && !(victim instanceof ArmorStand)) {
             //是生物近战攻击
             if (event.getDamager() instanceof LivingEntity attacker) {
                 //攻击者主手
