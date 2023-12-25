@@ -105,7 +105,7 @@ public class DamageCalculation {
         if (rank <= critRate) {
             amount *= (1.0 + critDamage);
             if (attacker instanceof Player player1) {
-                player.playSound(player1, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+                player1.playSound(player1, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
             }
             logger.log(Level.FINE, "暴击!暴击后伤害:" + amount);
             if (puppet)
